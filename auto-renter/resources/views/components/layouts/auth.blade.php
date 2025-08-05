@@ -8,11 +8,11 @@
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
                 <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC]  rounded-es-lg rounded-ee-lg lg:rounded-ss-lg lg:rounded-ee-none">
                     <a href="{{ route('login') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
-                    <span class="flex h-30 w-30 mb-1 items-center justify-center rounded-md hidden dark:flex">
-                        <x-dark-app-logo-icon class="size-100 text-black dark:text-white" />
-                    </span>
                     <span class="flex h-30 w-30 mb-1 items-center justify-center rounded-md dark:hidden">
                         <x-app-logo-icon class="size-100 text-black dark:text-white" />
+                    </span>
+                    <span class="flex h-30 w-30 mb-1 items-center justify-center rounded-md hidden dark:flex">
+                        <x-dark-app-logo-icon class="size-100 text-black dark:text-white" />
                     </span>
                     <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
                 </a>
