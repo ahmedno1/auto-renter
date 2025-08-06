@@ -11,6 +11,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', 'role:owner'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::view('cars', 'cars')->name('cars');
 });
 
 Route::middleware(['auth'])->group(function () {
