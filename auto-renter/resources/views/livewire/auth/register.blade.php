@@ -25,8 +25,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'phone'=>['required','string'],
-            'role'=>['required','string'],
+            'phone' => ['required', 'string'],
+            'role' => ['required', 'in:owner,customer'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -100,11 +100,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
         />
         
         <!-- role -->
-        <flux:radio.group wire:model="role" :label="('role')" variant="segmented">
-            <flux:radio label="Owner" />
-            <flux:radio label="user" />
+        <flux:radio.group wire:model="role" :label="('Role')" variant="segmented">
+            <flux:radio label="Owner" value="owner" />
+            <flux:radio label="User" value="customer" />
         </flux:radio.group>
-         
+    
 
         <div class="flex items-center justify-end">
             <flux:button type="submit" variant="primary" class="w-full">
