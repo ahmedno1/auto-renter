@@ -20,7 +20,7 @@
                     {{ $slot }}
                 </div>
                 </div>
-                <div class="bg-gradient-to-r from-white to-zinc-900  dark:bg-gradient-to-r dark:from-[#151611] dark:to-white relative lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden ">
+                <div class="bg-gradient-to-r from-white to-zinc-800  dark:bg-gradient-to-r dark:from-zinc-800 dark:to-white relative lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden ">
                     <img
                         src="{{ asset('image/car.png') }}"
                         alt="car Image"
