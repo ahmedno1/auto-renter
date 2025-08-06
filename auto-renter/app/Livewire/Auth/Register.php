@@ -20,6 +20,10 @@ class Register extends Component
     public string $password = '';
 
     public string $password_confirmation = '';
+    
+    public string $phone = '';
+
+    public string $role = '';
 
     /**
      * Handle an incoming registration request.
@@ -30,12 +34,20 @@ class Register extends Component
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'string'],
+            'role' => ['required', 'in:owner,customer'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered(($user = User::create($validated))));
-
+        event(new Registered(($user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'phone' => $validated['phone'],
+            'role' => $validated['role'],
+        ]))));
+        
         Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
