@@ -14,12 +14,16 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle($request, \Closure $next, $role)
-    {
-        if (!Auth::check() || Auth::user()->role !== $role) {
-            abort(403, 'Access denied');
-        }
-        return $next($request);
+public function handle($request, Closure $next, $role)
+{
+    if (!Auth::check()) {
+        abort(403, 'Access denied');
     }
+    if (Auth::user()->role !== $role) {
+        return redirect()->route('home');   // send the customer to the home page here
+    }
+    return $next($request);
+}
+
     
 }
