@@ -10,8 +10,8 @@ test('login screen can be rendered', function () {
     $response->assertStatus(200);
 });
 
-test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+test('owners are redirected to the dashboard after login', function () {
+    $user = User::factory()->create(['role' => 'owner']);
 
     $response = Livewire::test(Login::class)
         ->set('email', $user->email)
@@ -21,6 +21,21 @@ test('users can authenticate using the login screen', function () {
     $response
         ->assertHasNoErrors()
         ->assertRedirect(route('dashboard', absolute: false));
+
+    $this->assertAuthenticated();
+});
+
+test('customers are redirected home after login', function () {
+    $user = User::factory()->create(['role' => 'customer']);
+
+    $response = Livewire::test(Login::class)
+        ->set('email', $user->email)
+        ->set('password', 'password')
+        ->call('login');
+
+    $response
+        ->assertHasNoErrors()
+        ->assertRedirect(route('home', absolute: false));
 
     $this->assertAuthenticated();
 });

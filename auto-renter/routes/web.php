@@ -4,6 +4,13 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Home;
+use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Register;
+use App\Livewire\Auth\Logout;
+use App\Livewire\Auth\TwoFactor;
+use App\Livewire\Auth\TwoFactorAuthentication;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,8 +22,8 @@ Route::middleware(['auth', 'verified', 'role:owner'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('home', 'home')->name('home');
-    });
+    Route::get('home', Home::class)->name('home');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

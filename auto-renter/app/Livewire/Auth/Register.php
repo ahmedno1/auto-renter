@@ -50,7 +50,13 @@ class Register extends Component
         
         Auth::login($user);
 
-        $this->redirect(route('home', absolute: false), navigate: true);
+        $destination = $user->role === 'owner'
+            ? route('dashboard', absolute: false)
+            : route('home', absolute: false);
+
+        $this->redirect($destination, navigate: true);
+        $this->dispatch('registrationSuccess');
+        
     }
 
 }
