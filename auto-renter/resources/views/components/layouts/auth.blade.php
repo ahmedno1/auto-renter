@@ -11,7 +11,7 @@
                     <span class="flex h-30 w-30 mb-1 items-center justify-center rounded-md dark:hidden">
                         <x-app-logo-icon class="size-100 text-black dark:text-white" />
                     </span>
-                    <span class="flex h-30 w-30 mb-1 items-center justify-center rounded-md hidden dark:flex">
+                    <span class="h-30 w-30 mb-1 items-center justify-center rounded-md hidden dark:flex">
                         <x-dark-app-logo-icon class="size-100 text-black dark:text-white" />
                     </span>
                     <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
