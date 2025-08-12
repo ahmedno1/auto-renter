@@ -22,6 +22,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         View::share('isOwner', Auth::check() && Auth::user()->role === 'owner');
-        View::share('isCustomer', Auth::check() && Auth::user()->role === 'customer');        
+        View::share('isCustomer', Auth::check() && Auth::user()->role === 'customer');
     }
 }

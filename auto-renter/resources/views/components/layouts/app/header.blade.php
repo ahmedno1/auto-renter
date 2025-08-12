@@ -22,7 +22,6 @@
                 </flux:navbar>
             @endif
 
-
             <flux:spacer />
 
             <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
