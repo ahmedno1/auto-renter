@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id')->constrained()->cascadeOnDelete();
-            $table->text('description');
+            $table->string('image');
             $table->string('brand');
             $table->string('model');
-            $table->int('year');
-            $table->float('daily_rent');
-            $table->string('image');
+            $table->unsignedSmallInteger('year');
+            $table->decimal('daily_rent', 10, 2);
+            $table->text('description')->nullable();
             $table->enum('status',['available','unavailable']);
             $table->timestamps();
         });

@@ -10,6 +10,7 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\TwoFactor;
 use App\Livewire\Auth\TwoFactorAuthentication;
+use App\Livewire\Cars;
 
 
 Route::get('/', function () {
@@ -18,7 +19,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', 'role:owner'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
-    Route::view('cars', 'cars')->name('cars');
+    Route::get('cars', Cars::class)->name('cars');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
