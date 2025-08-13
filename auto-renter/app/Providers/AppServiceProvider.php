@@ -20,8 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
-        View::share('isOwner', Auth::check() && Auth::user()->role === 'owner');
-        View::share('isCustomer', Auth::check() && Auth::user()->role === 'customer');
+        // Share role flags with every view once the user is resolved
+        View::composer('*', function ($view) {
+            $user = Auth::user();
+
+            $view->with('isOwner', $user && $user->role === 'owner');
+            $view->with('isCustomer', $user && $user->role === 'customer');
+        });
     }
 }
