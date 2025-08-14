@@ -50,6 +50,6 @@ class EditCar extends Component
     }
     public function render()
     {
-        return view('livewire.edit-car');
+        return view('livewire.owner.car.edit-car');
     }
 }

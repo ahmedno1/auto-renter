@@ -31,7 +31,7 @@ class Cars extends Component
     public function render()
     {
         $cars = Car::orderByDesc('created_at')->paginate(5);
-        return view('livewire.cars', [
+        return view('livewire.owner.car.cars', [
             'cars' => $cars
         ]);
     }

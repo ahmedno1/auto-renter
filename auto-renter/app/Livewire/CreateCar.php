@@ -53,6 +53,6 @@ class CreateCar extends Component
 
     public function render()
     {
-        return view('livewire.create-car');
+        return view('livewire.owner.car.create-car');
     }
 }
