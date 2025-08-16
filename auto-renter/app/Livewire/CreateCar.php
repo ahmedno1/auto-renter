@@ -9,6 +9,7 @@ use Flux\Flux;
 
 class CreateCar extends Component
 {
+    use WithFileUploads;
     public $image;
     public $brand;
     public $model;
@@ -33,9 +34,10 @@ class CreateCar extends Component
     public function save()
     {
         $this->validate();
+        $path = $this->image->store('cars', 'public');
 
         Car::create([
-            'image' => $this->path,
+            'image' => $path,
             'brand' => $this->brand,
             'model' => $this->model,
             'year' => $this->year,

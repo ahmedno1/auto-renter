@@ -1,10 +1,16 @@
 <div>
     <flux:modal name="create-car" class="md:w-900">
         <div class="space-y-6">
+        <form wire:submit.prevent="save" enctype="multipart/form-data" class="space-y-6">
             <div>
                 <flux:heading size="lg">Add new car</flux:heading>
                 <flux:text class="mt-2">Add a car</flux:text>
             </div>
+            <flux:input
+                label="Photo"
+                type="file"
+                wire:model="photo"
+                placeholder="Upload car photo" />
 
             <flux:input
                 label="brand"
@@ -41,5 +47,7 @@
                 <flux:button type="submit" variant="primary" wire:click="save">Save</flux:button>
             </div>
         </div>
+            </form>
+
     </flux:modal>
 </div>
