@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('year');
             $table->decimal('daily_rent', 10, 2);
             $table->text('description')->nullable();
-            $table->enum('status',['available','unavailable']);
+            $table->enum('status',['available','unavailable'])->default('available');
             $table->timestamps();
         });
     }

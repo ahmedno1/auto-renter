@@ -37,12 +37,12 @@
             @forelse ($cars as $car)
             <tr class="border-t border-gray-300 dark:border-gray-700">
                 <td class="px-4 py-2">
-                    <img src="{{ $car->getImageUrl() }}" alt="Photo of {{ $car->brand }} {{ $car->model }}" class="w-20 h-12 object-cover">
+                    <img src="{{ $car->getImageUrl() }}" alt="Photo of {{ $car->brand }} {{ $car->model }}" class="w-10 h-10 object-cover">
                 </td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->brand }}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->model }}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->year }}</td>
-                <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->daily_rent }}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->daily_rent }}$</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->description }}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->status }}</td>
                 <td class="px-4 py-2 text-center space-x-2">

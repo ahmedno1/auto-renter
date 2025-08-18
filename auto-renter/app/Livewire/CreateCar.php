@@ -16,7 +16,7 @@ class CreateCar extends Component
     public $year;
     public $daily_rent;
     public $description;
-    public $status;
+    public $status = 'available';
 
     protected function rules()
     {
@@ -29,6 +29,15 @@ class CreateCar extends Component
             'description' => 'nullable|string|max:1000',
             'status' => 'required|in:available,unavailable',
         ];
+    }
+
+    public function updatedImage()
+    {
+        if (!in_array($this->image->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+            session()->flash('error', 'الملف يجب ان يكون صورة  بصيغة JPG أو PNG أو GIF أو WEBP.');
+            $this->reset('image');
+            return;
+        }
     }
 
     public function save()
