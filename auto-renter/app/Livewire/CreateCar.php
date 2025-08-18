@@ -55,6 +55,8 @@ class CreateCar extends Component
             'status' => $this->status,
         ]);
 
+        $this->reset();
+
         Flux::modal('create-car')->close();
 
         session()->flash('success', 'Car added successfully.');

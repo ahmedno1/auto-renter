@@ -38,19 +38,19 @@ class Cars extends Component
 
     public function edit($id)
     {
-        $this->dispatch('edit-location', $id);
+        $this->dispatch('edit-car', $id);
     }
 
     public function delete($id)
     {
         $this->carId = $id;
-        Flux::modal('delete-cars')->show();
+        Flux::modal('delete-car')->show();
     }
 
     public function deleteCar()
     {
         Car::find($this->carId)->delete();
-        Flux::modal('delete-cars')->close();
+        Flux::modal('delete-car')->close();
         session()->flash('success', 'Car deleted successfully.');
     }
 

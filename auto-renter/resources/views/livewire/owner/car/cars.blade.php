@@ -13,7 +13,8 @@
         x-show="show"
         x-init="setTimeout(() => { show = false }, 3000)"
         class="fixed top-5 right-5 bg-green-600 text-white text-sm p-4 rounded-lg shadow-lg z-50"
-        role="alert">
+        role="alert"
+    >
         <p>{{ $value }}</p>
     </div>
     @endsession
@@ -36,7 +37,7 @@
         <tbody class="divide-y bg-zinc-100 dark:bg-zinc-700">
             @forelse ($cars as $car)
             <tr class="border-t border-gray-300 dark:border-gray-700">
-                <td class="px-4 py-2">
+                <td class="px-1 py-1">
                     <img src="{{ $car->getImageUrl() }}" alt="Photo of {{ $car->brand }} {{ $car->model }}" class="w-10 h-10 object-cover">
                 </td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->brand }}</td>
@@ -78,7 +79,7 @@
                 <flux:modal.close>
                     <flux:button variant="ghost">Cancel</flux:button>
                 </flux:modal.close>
-                <flux:button type="submit" variant="danger" wire:click="deletecar()">Delete car</flux:button>
+                <flux:button type="submit" variant="danger" wire:click="deleteCar()">Delete car</flux:button>
             </div>
         </div>
     </flux:modal>
