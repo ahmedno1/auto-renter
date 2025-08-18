@@ -3,51 +3,84 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
+use Livewire\WithFileUploads;
 use Flux\Flux;
 use App\Models\Car;
-use Livewire\Attributes\On;
 
 class EditCar extends Component
 {
-    public $image, $brand, $model, $year, $description, $status, $carId;
+    use WithFileUploads;
+
+    // keep the existing image path separate from a newly uploaded file
+    public $carId;
+    public $image;        // existing path string
+    public $newImage;     // Livewire\TemporaryUploadedFile when user selects a new one
+    public $brand;
+    public $model;
+    public $year;
+    public $description;
+    public $status;
 
     #[On('edit-car')]
-
-    public function editCar($id)
+    public function editCar($id): void
     {
         $car = Car::findOrFail($id);
-        $this->carId = $id;
-        $this->image = $car->image;
-        $this->brand = $car->brand;
-        $this->model = $car->model;
-        $this->year = $car->year;
-        $this->description = $car->description;
-        $this->status = $car->status;
-        Flux::model('edit-car')->show();
+
+        $this->carId      = $car->id;
+        $this->image      = $car->image;       // existing path
+        $this->newImage   = null;              // reset file input
+        $this->brand      = $car->brand;
+        $this->model      = $car->model;
+        $this->year       = $car->year;
+        $this->description= $car->description;
+        $this->status     = $car->status;
+
+        // ✅ correct method name
+        Flux::modal('edit-car')->show();
     }
 
     public function update()
     {
         $this->validate([
-            'image' => ['required', 'image', 'max:102400'], // 100MB Max
-            'brand' => ['required', 'string', 'max:255'],
-            'model' => ['required', 'string', 'max:255'],
-            'year' => ['required', 'integer', 'min:1900', 'max:'] . date('Y'),
+            // new image is optional during edit
+            'newImage'    => ['nullable', 'image', 'max:102400'],
+            'brand'       => ['required', 'string', 'max:255'],
+            'model'       => ['required', 'string', 'max:255'],
+            'year'        => ['required', 'integer', 'min:1900', 'max:' . date('Y')], // ✅ fixed
             'description' => ['nullable', 'string', 'max:1000'],
-            'status' => ['required', 'in:available,unavailable'],
+            'status'      => ['required', 'in:available,unavailable'],
         ]);
 
-        $car = Car::find($this->carId);
-        $car->image = $this->image;
-        $car->brand = $this->brand;
-        $car->model = $this->model;
-        $car->year = $this->year;
-        $car->description = $this->description;
-        $car->status = $this->status;
+        $car = Car::findOrFail($this->carId);
 
-        session()->flash('success', 'Car updated successfully');
-        $this->redirectRoute('cars', navigate: true);
+        // if the user picked a new image, store it and replace the path
+        if ($this->newImage) {
+            $path = $this->newImage->store('cars', 'public');
+            $car->image = $path;
+            $this->image = $path; // keep UI in sync
+        }
+
+        $car->brand       = $this->brand;
+        $car->model       = $this->model;
+        $car->year        = $this->year;
+        $car->description = $this->description;
+        $car->status      = $this->status;
+        $car->save();
+
+        session()->flash('success', 'Car updated successfully.');
+
+        // close the right modal
+        Flux::modal('edit-car')->close();
+
+        // EITHER: navigate (SPA)
+        return $this->redirectRoute('cars', navigate: true);
+
+        // OR (alternative): stay here and refresh the list instantly
+        // $this->dispatch('car-updated');
+        // return;
     }
+
     public function render()
     {
         return view('livewire.owner.car.edit-car');

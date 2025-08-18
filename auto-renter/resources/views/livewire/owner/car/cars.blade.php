@@ -20,6 +20,7 @@
     @endsession
 
     <livewire:create-car />
+    <livewire:edit-car />
 
     <table class="overflow-hidden w-full bg-white dark:bg-slate-800 shadow-md rounded-lg mt-5">
         <thead class="bg-zinc-200 dark:bg-zinc-900">
