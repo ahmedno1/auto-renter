@@ -12,10 +12,9 @@ class EditCar extends Component
 {
     use WithFileUploads;
 
-    // keep the existing image path separate from a newly uploaded file
     public $carId;
-    public $image;        // existing path string
-    public $newImage;     // Livewire\TemporaryUploadedFile when user selects a new one
+    public $image;
+    public $newImage;
     public $brand;
     public $model;
     public $year;
@@ -27,14 +26,14 @@ class EditCar extends Component
     {
         $car = Car::findOrFail($id);
 
-        $this->carId      = $car->id;
-        $this->image      = $car->image;       // existing path
-        $this->newImage   = null;              // reset file input
-        $this->brand      = $car->brand;
-        $this->model      = $car->model;
-        $this->year       = $car->year;
-        $this->description= $car->description;
-        $this->status     = $car->status;
+        $this->carId       = $car->id;
+        $this->image       = $car->image;
+        $this->newImage    = null;
+        $this->brand       = $car->brand;
+        $this->model       = $car->model;
+        $this->year        = $car->year;
+        $this->description = $car->description;
+        $this->status      = $car->status;
 
         // ✅ correct method name
         Flux::modal('edit-car')->show();
@@ -43,12 +42,12 @@ class EditCar extends Component
     public function update()
     {
         $this->validate([
-            // new image is optional during edit
-            'newImage'    => ['nullable', 'image', 'max:102400'],
+            'newImage'    => ['nullable', 'image', 'max:102400'], // 100MB Max
             'brand'       => ['required', 'string', 'max:255'],
             'model'       => ['required', 'string', 'max:255'],
-            'year'        => ['required', 'integer', 'min:1900', 'max:' . date('Y')], // ✅ fixed
-            'description' => ['nullable', 'string', 'max:1000'],
+            'year'        => ['required', 'unsignedSmallInteger', 'min:1900', 'max:' . date('Y')],
+            'daily_rent'  => ['required', 'decimal', 'max:255'],
+            'description' => ['nullable', 'text', 'max:1000'],
             'status'      => ['required', 'in:available,unavailable'],
         ]);
 
@@ -58,7 +57,7 @@ class EditCar extends Component
         if ($this->newImage) {
             $path = $this->newImage->store('cars', 'public');
             $car->image = $path;
-            $this->image = $path; // keep UI in sync
+            $this->image = $path;
         }
 
         $car->brand       = $this->brand;
@@ -70,15 +69,9 @@ class EditCar extends Component
 
         session()->flash('success', 'Car updated successfully.');
 
-        // close the right modal
         Flux::modal('edit-car')->close();
 
-        // EITHER: navigate (SPA)
-        return $this->redirectRoute('cars', navigate: true);
-
-        // OR (alternative): stay here and refresh the list instantly
-        // $this->dispatch('car-updated');
-        // return;
+        $this->redirectRoute('cars', navigate: true);
     }
 
     public function render()

@@ -21,13 +21,13 @@ class CreateCar extends Component
     protected function rules()
     {
         return [
-            'image' => 'required|image|max:102400', // 100MB Max
-            'brand' => 'required|string|max:255',
-            'model' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:' . date('Y'),
-            'daily_rent' => 'required|string|max:255',
+            'image'       => 'required|image|max:102400', // 100MB Max
+            'brand'       => 'required|string|max:255',
+            'model'       => 'required|string|max:255',
+            'year'        => 'required|integer|min:1900|max:' . date('Y'),
+            'daily_rent'  => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
-            'status' => 'required|in:available,unavailable',
+            'status'      => 'required|in:available,unavailable',
         ];
     }
 
@@ -46,13 +46,13 @@ class CreateCar extends Component
         $path = $this->image->store('cars', 'public');
 
         Car::create([
-            'image' => $path,
-            'brand' => $this->brand,
-            'model' => $this->model,
-            'year' => $this->year,
-            'daily_rent' => $this->daily_rent,
+            'image'       => $path,
+            'brand'       => $this->brand,
+            'model'       => $this->model,
+            'year'        => $this->year,
+            'daily_rent'  => $this->daily_rent,
             'description' => $this->description,
-            'status' => $this->status,
+            'status'      => $this->status,
         ]);
 
         $this->reset();
