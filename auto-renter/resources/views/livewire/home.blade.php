@@ -23,7 +23,7 @@
         </div>
     </section>
 
-    <section>
+    <section style="margin-top: 40px; padding: 30px;">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             @forelse ($cars as $car)
             <div class="bg-white dark:bg-slate-800 rounded shadow p-2">
