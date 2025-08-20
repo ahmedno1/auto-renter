@@ -26,7 +26,7 @@ class CreateCar extends Component
             'brand'       => 'required|string|max:255',
             'model'       => 'required|string|max:255',
             'year'        => 'required|integer|min:1900|max:' . date('Y'),
-            'daily_rent'  => 'required|string|max:255',
+            'daily_rent'  => 'required|string|min:1',
             'description' => 'nullable|string|max:1000',
             'status'      => 'required|in:available,unavailable',
         ];

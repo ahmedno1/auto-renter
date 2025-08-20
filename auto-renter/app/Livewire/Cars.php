@@ -17,13 +17,18 @@ class Cars extends Component
     use WithPagination;
 
     public string $statusFilter = '';
+    /*
+    public function mount()
+    {
+        $this->statusFilter = 'all';
+    }
+    */
     
     #[On('save')]
     public function refreshCars(): void
     {
-        // Automatically re-renders
-        
-        redirect(route('owner.cars.cars.blade.php'));
+        // Automatically re-renders        
+        $this->resetPage();
     }
 
     public function updatingStatusFilter()
