@@ -39,6 +39,7 @@
                     class="w-full h-32 object-cover rounded">
                 <div class="mt-2 font-bold text-lg">{{ $car->brand }}</div>
                 <div class="text-sm text-gray-600">{{ $car->model }} - {{ $car->year }}</div>
+                        <div class="text-sm text-gray-600">{{ $car->owner->name }}</div>
                 <flux:button wire:click="showCar({{ $car->id }})" class="mt-2 px-3 py-1 bg-blue-600 text-white rounded">
                     عرض التفاصيل
                 </flux:button>
@@ -67,6 +68,7 @@
                 <div class="text-sm text-gray-600">السعر اليومي: ${{ number_format($selectedCar->daily_rent, 2) }}</div>
                 <div class="text-sm text-gray-600">الوصف: {{ $selectedCar->description }}</div>
                 <div class="text-sm text-gray-600">الحالة: {{ $selectedCar->status }}</div>
+                <div class="text-sm text-gray-600">المالك: {{ $selectedCar->owner->name }}</div>
 
                 <flux:button class="mt-4 px-4 py-2 bg-green-600 text-white rounded">
                     استئجار

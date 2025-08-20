@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Car;
 use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
 
 class CreateCar extends Component
 {
@@ -46,6 +47,7 @@ class CreateCar extends Component
         $path = $this->image->store('cars', 'public');
 
         Car::create([
+            'owner_id'   => Auth::id(),
             'image'       => $path,
             'brand'       => $this->brand,
             'model'       => $this->model,
@@ -60,8 +62,8 @@ class CreateCar extends Component
         Flux::modal('create-car')->close();
 
         session()->flash('success', 'Car added successfully.');
-
-        $this->redirectRoute('cars', navigate: true);
+        
+        $this->dispatch('save')->to(\App\Livewire\Cars::class);
     }
 
     public function render()

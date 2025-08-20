@@ -70,8 +70,7 @@ class EditCar extends Component
         session()->flash('success', 'Car updated successfully.');
 
         Flux::modal('edit-car')->close();
-
-        $this->redirectRoute('cars', navigate: true);
+        $this->dispatch('carSaved');
     }
 
     public function render()
