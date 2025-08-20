@@ -34,11 +34,10 @@ class EditCar extends Component
         $this->brand       = $car->brand;
         $this->model       = $car->model;
         $this->year        = $car->year;
-        $this->daily_rent = $car->daily_rent;
+        $this->daily_rent  = $car->daily_rent;
         $this->description = $car->description;
         $this->status      = $car->status;
 
-        // ✅ correct method name
         Flux::modal('edit-car')->show();
     }
 

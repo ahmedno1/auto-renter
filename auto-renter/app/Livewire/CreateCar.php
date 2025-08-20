@@ -35,7 +35,7 @@ class CreateCar extends Component
     public function updatedImage()
     {
         if (!in_array($this->image->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
-            session()->flash('error', 'الملف يجب ان يكون صورة  بصيغة JPG أو PNG أو GIF أو WEBP.');
+            session()->flash('error', 'The picture should only be in jpg, jpeg, png, gif, webp');
             $this->reset('image');
             return;
         }
