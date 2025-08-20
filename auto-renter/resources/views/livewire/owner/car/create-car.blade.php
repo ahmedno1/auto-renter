@@ -1,7 +1,7 @@
 <div>
     <flux:modal name="create-car" class="md:w-900">
         <div class="space-y-6">
-            <form class="space-y-6">
+            <form class="space-y-6" wire:submit.prevent="save">
                 <div>
                     <flux:heading size="lg">Add new car</flux:heading>
                     <flux:text class="mt-2">Add a car</flux:text>
@@ -53,7 +53,7 @@
 
                 <div class="flex">
                     <flux:spacer />
-                    <flux:button type="submit" variant="primary" wire:click="save">Save</flux:button>
+                    <flux:button type="submit" variant="primary" >Save</flux:button>
                 </div>
             </form>
         </div>
