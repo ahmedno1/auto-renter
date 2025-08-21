@@ -4,14 +4,32 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 use Flux\Flux;
 use App\Models\Car;
+use Illuminate\Support\Facades\Auth;
+
+
+use function Termwind\render;
 
 class Cars extends Component
 {
     use WithPagination;
 
     public string $statusFilter = '';
+    /*
+    public function mount()
+    {
+        $this->statusFilter = 'all';
+    }
+    */
+    
+    #[On('save')]
+    public function refreshCars(): void
+    {
+        // Automatically re-renders        
+        $this->resetPage();
+    }
 
     public function updatingStatusFilter()
     {
@@ -30,7 +48,9 @@ class Cars extends Component
 
     public function render()
     {
-        $cars = Car::orderByDesc('created_at')->paginate(5);
+        $cars = Car::where('owner_id', Auth::id())
+            ->orderByDesc('created_at')
+            ->paginate(5);
         return view('livewire.owner.car.cars', [
             'cars' => $cars
         ]);
@@ -56,6 +76,6 @@ class Cars extends Component
 
     public function carsCount()
     {
-        return Car::count();
+        return Car::where('owner_id', Auth::id())->count();
     }
 }

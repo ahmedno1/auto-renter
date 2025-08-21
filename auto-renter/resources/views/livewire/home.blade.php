@@ -90,23 +90,23 @@
   </section>
 
 
-    <!-- the pop out car details -->
-    <section>
+    <section style="margin-top: 40px; padding: 30px;">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             @forelse ($cars as $car)
             <div class="bg-white dark:bg-slate-800 rounded shadow p-2">
                 <img src="{{ $car->image ? asset('storage/' . $car->image) : 'https://placehold.co/300x200?text=No+Image' }}"
                     alt="{{ $car->brand }}"
-                    class="w-full h-32 object-cover rounded">
+                    class="w-full object-cover rounded">
                 <div class="mt-2 font-bold text-lg">{{ $car->brand }}</div>
-                <div class="text-sm text-gray-600">{{ $car->model }} - {{ $car->year }}</div>
-                <flux:button wire:click="showCar({{ $car->id }})" class="mt-2 px-3 py-1 bg-blue-600 text-white rounded">
-                    عرض التفاصيل
+                <div class="text-sm">{{ $car->model }} - {{ $car->year }}</div>
+                        <div class="text-sm"><b>Owner: </b>{{ $car->owner->name }}</div>
+                <flux:button wire:click="showCar({{ $car->id }})" class="mt-2 px-3 py-1 bg-gray-600 text-white rounded">
+                    Show details
                 </flux:button>
             </div>
             @empty
             <div class="col-span-3 text-center text-gray-500 dark:text-gray-400">
-                لا توجد سيارات حالياً.
+                no cars yet.
             </div>
             @endforelse
         </div>
@@ -115,22 +115,23 @@
             {{ $cars->links() }}
         </div>
 
-        <!-- Modal -->
+    <!-- the pop out car details -->
         <flux:modal name="car-details">
             @if ($selectedCar)
             <div class="p-4 space-y-2">
                 <img src="{{ $selectedCar->image ? asset('storage/' . $selectedCar->image) : 'https://placehold.co/600x300?text=No+Image' }}"
                     alt="{{ $selectedCar->brand }}"
-                    class="w-full h-40 object-cover rounded mb-2">
+                    class="w-full object-cover rounded mb-2">
 
                 <div class="font-bold text-xl">{{ $selectedCar->brand }} - {{ $selectedCar->model }}</div>
-                <div class="text-sm text-gray-600">السنة: {{ $selectedCar->year }}</div>
-                <div class="text-sm text-gray-600">السعر اليومي: ${{ number_format($selectedCar->daily_rent, 2) }}</div>
-                <div class="text-sm text-gray-600">الوصف: {{ $selectedCar->description }}</div>
-                <div class="text-sm text-gray-600">الحالة: {{ $selectedCar->status }}</div>
+                <div class="text-sm">year: {{ $selectedCar->year }}</div>
+                <div class="text-sm">daily rent: ${{ number_format($selectedCar->daily_rent, 2) }}</div>
+                <div class="text-sm">description: {{ $selectedCar->description }}</div>
+                <div class="text-sm">status: {{ $selectedCar->status }}</div>
+                <div class="text-sm">owner: {{ $selectedCar->owner->name }}</div>
 
                 <flux:button class="mt-4 px-4 py-2 bg-green-600 text-white rounded">
-                    استئجار
+                    Rent now!!
                 </flux:button>
             </div>
             @endif

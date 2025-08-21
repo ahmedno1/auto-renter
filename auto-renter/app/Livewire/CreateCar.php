@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Car;
 use Flux\Flux;
+use Illuminate\Support\Facades\Auth;
 
 class CreateCar extends Component
 {
@@ -25,7 +26,7 @@ class CreateCar extends Component
             'brand'       => 'required|string|max:255',
             'model'       => 'required|string|max:255',
             'year'        => 'required|integer|min:1900|max:' . date('Y'),
-            'daily_rent'  => 'required|string|max:255',
+            'daily_rent'  => 'required|string|min:1',
             'description' => 'nullable|string|max:1000',
             'status'      => 'required|in:available,unavailable',
         ];
@@ -34,7 +35,7 @@ class CreateCar extends Component
     public function updatedImage()
     {
         if (!in_array($this->image->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
-            session()->flash('error', 'الملف يجب ان يكون صورة  بصيغة JPG أو PNG أو GIF أو WEBP.');
+            session()->flash('error', 'The picture should only be in jpg, jpeg, png, gif, webp');
             $this->reset('image');
             return;
         }
@@ -46,6 +47,7 @@ class CreateCar extends Component
         $path = $this->image->store('cars', 'public');
 
         Car::create([
+            'owner_id'   => Auth::id(),
             'image'       => $path,
             'brand'       => $this->brand,
             'model'       => $this->model,
@@ -60,8 +62,8 @@ class CreateCar extends Component
         Flux::modal('create-car')->close();
 
         session()->flash('success', 'Car added successfully.');
-
-        $this->redirectRoute('cars', navigate: true);
+        
+        $this->dispatch('save')->to(\App\Livewire\Cars::class);
     }
 
     public function render()

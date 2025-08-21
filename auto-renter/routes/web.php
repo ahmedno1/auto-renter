@@ -14,8 +14,8 @@ use App\Livewire\Cars;
 
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('');
+    return redirect()->route('home');
+});
 
 Route::middleware(['auth', 'verified', 'role:owner'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::fallback(function () {
     return redirect()->route('home');

@@ -18,8 +18,10 @@ class EditCar extends Component
     public $brand;
     public $model;
     public $year;
+    public $daily_rent;
     public $description;
     public $status;
+
 
     #[On('edit-car')]
     public function editCar($id): void
@@ -32,10 +34,10 @@ class EditCar extends Component
         $this->brand       = $car->brand;
         $this->model       = $car->model;
         $this->year        = $car->year;
+        $this->daily_rent  = $car->daily_rent;
         $this->description = $car->description;
         $this->status      = $car->status;
 
-        // ✅ correct method name
         Flux::modal('edit-car')->show();
     }
 
@@ -45,9 +47,9 @@ class EditCar extends Component
             'newImage'    => ['nullable', 'image', 'max:102400'], // 100MB Max
             'brand'       => ['required', 'string', 'max:255'],
             'model'       => ['required', 'string', 'max:255'],
-            'year'        => ['required', 'unsignedSmallInteger', 'min:1900', 'max:' . date('Y')],
-            'daily_rent'  => ['required', 'decimal', 'max:255'],
-            'description' => ['nullable', 'text', 'max:1000'],
+            'year'        => ['required', 'integer', 'min:1900', 'max:' . date('Y')],
+            'daily_rent'  => ['required', 'string', 'min:0'],
+            'description' => ['nullable', 'string', 'max:1000'],
             'status'      => ['required', 'in:available,unavailable'],
         ]);
 
@@ -63,6 +65,7 @@ class EditCar extends Component
         $car->brand       = $this->brand;
         $car->model       = $this->model;
         $car->year        = $this->year;
+        $car->daily_rent  = $this->daily_rent;
         $car->description = $this->description;
         $car->status      = $this->status;
         $car->save();
@@ -70,8 +73,8 @@ class EditCar extends Component
         session()->flash('success', 'Car updated successfully.');
 
         Flux::modal('edit-car')->close();
-
-        $this->redirectRoute('cars', navigate: true);
+        $this->dispatch('save')->to(\App\Livewire\Cars::class);
+        $this->reset(['carId', 'image', 'newImage', 'brand', 'model', 'year', 'daily_rent', 'description', 'status']);
     }
 
     public function render()

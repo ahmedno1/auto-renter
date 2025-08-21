@@ -16,13 +16,13 @@ class Home extends Component
 
     public function showCar($id)
     {
-        $this->selectedCar = Car::find($id);
+        $this->selectedCar = Car::with('owner')->find($id);
         \Flux\Flux::modal('car-details')->show();
     }
 
     public function render()
     {
-        $cars = Car::latest()->paginate(6);
+        $cars = Car::with('owner')->latest()->paginate(6);
         return view('livewire.home', ['cars' => $cars]);
     }
 }
