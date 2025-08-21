@@ -151,10 +151,10 @@
                 @if ($selectedCar->status === 'available')
                 <div class="space-y-2 mt-4">
                     <label>from date:</label>
-                    <flux:input type="date" wire:modal="start_date" />
+                    <flux:input type="date" wire:model="start_date" />
 
                     <label>to date:</label>
-                    <flux:input type="date" wire:modal="end_date" />
+                    <flux:input type="date" wire:model="end_date" />
 
                     <flux:button wire:click="rent" class="bg-green-600 text-white px-4 py-2 rounded">
                         Confirm renting
