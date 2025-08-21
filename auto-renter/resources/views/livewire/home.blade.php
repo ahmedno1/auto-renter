@@ -38,10 +38,10 @@
              <flux:icon.key-square class="text-[#d24122]" />
             </div>
             </div>
-            <h3 class="text-lg font-bold mb-2">Fast & Easy Booking</h3>
+            <h3 class="text-lg font-bold mb-2">for the Owner</h3>
             <p class="text-gray-500 text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
+Auto Renter provides a platform for car owners to rent their cars and also helps in the rental management process by organizing appointments, etc.
+           </p>
         </div>
       
       <!-- Card 2 (highlighted) -->
@@ -51,9 +51,9 @@
             <flux:icon.lightbulb class="text-yellow-200" />
           </div>
         </div>
-        <h3 class="text-lg font-bold mb-2">Many Pickup Location</h3>
-        <p class="text-gray-300 text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <h3 class="text-lg font-bold mb-2">our goal</h3>
+        <p class="text-black text-sm">
+          The Auto Renter app is designed to make the car rental process easier for both customers and car owners.
         </p>
       </div>
       
@@ -64,9 +64,9 @@
             <flux:icon.person-standing class="text-[#d24122]" />
           </div>
         </div>
-        <h3 class="text-lg font-bold mb-2">Satisfied Customers</h3>
+        <h3 class="text-lg font-bold mb-2">customers</h3>
         <p class="text-gray-500 text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            The Auto Rental app provides a platform for customers to rent cars and makes it easier for them to search for a suitable car or find it at the right time.           
         </p>
       </div>
 
