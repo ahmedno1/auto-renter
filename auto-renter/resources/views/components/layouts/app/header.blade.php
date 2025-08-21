@@ -14,6 +14,7 @@
             <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse dark:hidden" wire:navigate>
                 <x-dark-app-logo />
             </a>
+            <flux:button x-data x-on:click="$flux.dark = ! $flux.dark" icon="moon" variant="subtle" aria-label="Toggle dark mode" />
             @if($isOwner)
             
                 <flux:dropdown>
