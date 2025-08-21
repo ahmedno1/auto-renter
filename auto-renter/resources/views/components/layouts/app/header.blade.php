@@ -15,11 +15,16 @@
                 <x-dark-app-logo />
             </a>
             @if($isOwner)
-                <flux:navbar class="-mb-px max-lg:hidden">
-                    <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </flux:navbar.item>
-                </flux:navbar>
+            
+                <flux:dropdown>
+                    <flux:navbar.item icon="layout-grid" icon:trailing="chevron-down">Dashboard</flux:navbar.item>
+                    <flux:navmenu>
+                        <flux:navmenu.item href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navmenu.item>
+                        <flux:navmenu.item href="route('cars')" :current="request()->routeIs('cars')" wire:navigate>cars</flux:navmenu.item>
+                        <flux:navmenu.item href="#"  wire:navigate>booking</flux:navmenu.item>
+                    </flux:navmenu>
+                </flux:dropdown>
+
             @endif
 
             <flux:spacer />
