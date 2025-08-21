@@ -4,13 +4,13 @@
         <div class="container mx-auto px-6 lg:px-16 py-16 flex flex-col-reverse lg:flex-row items-center gap-12">
             <div class="flex-1 text-center lg:text-left">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                    Rent the Best Car <br> Around the World
+                    Rent the <span class="text-[#d24122]"> Best Car </span><br> Around the World
                 </h1>
                 <p class="mt-4 text-lg text-gray-300">
                     We provide the best car options and expert services to ensure the greatest customer experience.
                 </p>
                 <div class="mt-6 flex flex-wrap justify-center lg:justify-start gap-4">
-                    <a href="#cars" class="border bg-white hover:bg-black hover:text-white hover:border-gray-400 text-black px-6 py-3 rounded-full shadow-lg transition">
+                    <a href="#cars" class=" bg-white hover:bg-[#d24122] hover:text-white text-black px-6 py-3 rounded-full shadow-lg transition">
                         Rent a Car
                     </a>
                     <a href="#learn-more" class="border border-gray-400 hover:border-white px-6 py-3 rounded-full transition">
@@ -19,29 +19,23 @@
                 </div>
             </div>
             <div class="flex-1 relative">
-                <img src="/image/car.png" alt="Car" class="w-full max-w-5xl mx-auto relative">
+                <img src="/image/redCar.png" alt="Red car" class="w-full max-w-5xl mx-auto relative">
             </div>
         </div>
     </section>
 
     <!-- About us section-->
-    <section class="py-12">
-        <div class="text-center mb-15">
-            <h2 class="text-2xl md:text-7xl font-bold">About us</h2>
-        </div>
+    <section class="py-12 mb-15">
+
+        <h2 class="text-2xl md:text-7xl font-bold text-center mb-15">Why Auto Renter</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
         
         <!-- Card 1 -->
-        <div class="bg-white shadow rounded-lg p-8 text-center">
+        <div class="bg-black text-white shadow rounded-lg p-8 text-center">
             <div class="flex justify-center mb-4">
-            <div class="bg-purple-100 p-3 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" 
-                    class="h-8 w-8 text-purple-600" 
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                    d="M5 13l4 4L19 7" />
-                </svg>
+            <div class="bg-gray-100 p-3 rounded-full">
+             <flux:icon.key-square class="text-[#d24122]" />
             </div>
             </div>
             <h3 class="text-lg font-bold mb-2">Fast & Easy Booking</h3>
@@ -51,15 +45,10 @@
         </div>
       
       <!-- Card 2 (highlighted) -->
-      <div class="bg-black text-white shadow-lg rounded-lg p-8 text-center">
+      <div class="bg-gray-100 text-black shadow-lg rounded-lg p-8 text-center">
         <div class="flex justify-center mb-4">
-          <div class="bg-orange-100 p-3 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                 class="h-8 w-8 text-orange-500" 
-                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z" />
-            </svg>
+          <div class="bg-black p-3 rounded-full">
+            <flux:icon.lightbulb class="text-yellow-200" />
           </div>
         </div>
         <h3 class="text-lg font-bold mb-2">Many Pickup Location</h3>
@@ -69,15 +58,10 @@
       </div>
       
       <!-- Card 3 -->
-      <div class="bg-white shadow rounded-lg p-8 text-center">
+      <div class="bg-black text-white shadow rounded-lg p-8 text-center">
         <div class="flex justify-center mb-4">
-          <div class="bg-green-100 p-3 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                 class="h-8 w-8 text-green-600" 
-                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m4-4a4 4 0 100-8 4 4 0 000 8z" />
-            </svg>
+          <div class="bg-gray-100 p-3 rounded-full">
+            <flux:icon.person-standing class="text-[#d24122]" />
           </div>
         </div>
         <h3 class="text-lg font-bold mb-2">Satisfied Customers</h3>
@@ -89,8 +73,42 @@
     </div>
   </section>
 
+    <!-- Cars section-->
 
-    <section style="margin-top: 40px; padding: 30px;">
+    <section class="mb-15">
+
+        <h2 class="text-2xl md:text-7xl font-bold text-center mb-15">Cars</h2>
+
+        <form class="max-w-lg mx-auto m-15">
+            <div class="flex">
+                <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
+                <button id="dropdown-button" data-dropdown-toggle="dropdown" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white dark:hover:text-black dark:focus:ring-gray-700 dark:text-white" type="button">Sorted by</button>
+                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-black">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+                    <li>
+                        <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mockups</button>
+                    </li>
+                    <li>
+                        <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Templates</button>
+                    </li>
+                    <li>
+                        <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Design</button>
+                    </li>
+                    <li>
+                        <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logos</button>
+                    </li>
+                    </ul>
+                </div>
+                <div class="relative w-full">
+                    <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-black dark:border-black  dark:placeholder-gray-200 dark:text-white dark:focus:border-blue-500" placeholder="Search Mockups, Logos, Design Templates..." required />
+                    <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-black rounded-e-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-white">
+                        <flux:icon.search class="dark:text-black"/>
+                        <span class="sr-only">Search</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             @forelse ($cars as $car)
             <div class="bg-white dark:bg-slate-800 rounded shadow p-2">
