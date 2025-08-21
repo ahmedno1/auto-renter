@@ -1,4 +1,5 @@
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+    <!-- Hero section -->
     <section class="relative bg-black text-white rounded-b-[100px] sm:rounded-b-[200px] md:rounded-b-[50%]">
         <div class="container mx-auto px-6 lg:px-16 py-16 flex flex-col-reverse lg:flex-row items-center gap-12">
             <div class="flex-1 text-center lg:text-left">
@@ -18,10 +19,76 @@
                 </div>
             </div>
             <div class="flex-1 relative">
-                <img src="/image/car.png" alt="Car" class="w-full max-w-5xl mx-auto relative z-10 ">
+                <img src="/image/car.png" alt="Car" class="w-full max-w-5xl mx-auto relative">
             </div>
         </div>
     </section>
+
+    <!-- About us section-->
+    <section class="py-12">
+        <div class="text-center mb-15">
+            <h2 class="text-2xl md:text-7xl font-bold">About us</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+        
+        <!-- Card 1 -->
+        <div class="bg-white shadow rounded-lg p-8 text-center">
+            <div class="flex justify-center mb-4">
+            <div class="bg-purple-100 p-3 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                    class="h-8 w-8 text-purple-600" 
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            </div>
+            <h3 class="text-lg font-bold mb-2">Fast & Easy Booking</h3>
+            <p class="text-gray-500 text-sm">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+        </div>
+      
+      <!-- Card 2 (highlighted) -->
+      <div class="bg-black text-white shadow-lg rounded-lg p-8 text-center">
+        <div class="flex justify-center mb-4">
+          <div class="bg-orange-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="h-8 w-8 text-orange-500" 
+                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Many Pickup Location</h3>
+        <p class="text-gray-300 text-sm">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+      
+      <!-- Card 3 -->
+      <div class="bg-white shadow rounded-lg p-8 text-center">
+        <div class="flex justify-center mb-4">
+          <div class="bg-green-100 p-3 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 class="h-8 w-8 text-green-600" 
+                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m4-4a4 4 0 100-8 4 4 0 000 8z" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-lg font-bold mb-2">Satisfied Customers</h3>
+        <p class="text-gray-500 text-sm">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
 
     <!-- the pop out car details -->
     <section>
