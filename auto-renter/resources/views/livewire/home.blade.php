@@ -32,7 +32,7 @@
                     class="w-full object-cover rounded">
                 <div class="mt-2 font-bold text-lg">{{ $car->brand }}</div>
                 <div class="text-sm">{{ $car->model }} - {{ $car->year }}</div>
-                        <div class="text-sm"><b>Owner: </b>{{ $car->owner->name }}</div>
+                <div class="text-sm"><b>Owner: </b>{{ $car->owner->name }}</div>
                 <flux:button wire:click="showCar({{ $car->id }})" class="mt-2 px-3 py-1 bg-gray-600 text-white rounded">
                     Show details
                 </flux:button>
@@ -48,7 +48,7 @@
             {{ $cars->links() }}
         </div>
 
-    <!-- the pop out car details -->
+        <!-- the pop out car details -->
         <flux:modal name="car-details">
             @if ($selectedCar)
             <div class="p-4 space-y-2">
@@ -64,8 +64,35 @@
                 <div class="text-sm">owner: {{ $selectedCar->owner->name }}</div>
 
                 <flux:button class="mt-4 px-4 py-2 bg-green-600 text-white rounded">
-                    Rent now!!
+                    rent
                 </flux:button>
+            </div>
+            @endif
+
+            @if ($selectedCar->status === 'available')
+            <div class="space-y-2">
+                <label>from date:</label>
+                <flux:input
+                    type="date"
+                    wire:modal="start_date">
+                    <label>to date:</label>
+                    <flux:input
+                        type="date"
+                        wire:modal="end_date">
+
+                        <flux:button wire:click="rent" class="bg-green-600 text-white px-4 py-2 rounded">
+                            Confirm renting
+                        </flux:button>
+            </div>
+            @else
+            <div class="text-red-600 text-sm">
+                Car is not available for renting in this time.
+                rent time for the car:
+                <ul class="mt-2 list-disc list-inside text-gray-700">
+                    @foreach($selectedCar->reservations as $r)
+                    <li>{{ $r->start_date }} tell {{ $r->end_date }}</li>
+                    @endforeach
+                </ul>
             </div>
             @endif
         </flux:modal>

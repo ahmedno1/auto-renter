@@ -25,9 +25,14 @@ class Car extends Model
         'daily_rent' => 'decimal:2'
     ];
 
-        public function owner(): BelongsTo
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
     }
 
 

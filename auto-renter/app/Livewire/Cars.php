@@ -23,7 +23,7 @@ class Cars extends Component
         $this->statusFilter = 'all';
     }
     */
-    
+
     #[On('save')]
     public function refreshCars(): void
     {
@@ -77,5 +77,19 @@ class Cars extends Component
     public function carsCount()
     {
         return Car::where('owner_id', Auth::id())->count();
+    }
+
+    public function isAvailableBetween($start, $end)
+    {
+        return !$this->reservations()
+            ->where(function ($query) use ($start, $end) {
+                $query->whereBetween('start_date', [$start, $end])
+                    ->orWhereBetween('end_date', [$start, $end])
+                    ->orWhere(function ($q) use ($start, $end) {
+                        $q->where('start_date', '<=', $start)
+                            ->where('end_date', '>=', $end);
+                    });
+            })
+            ->exists();
     }
 }
