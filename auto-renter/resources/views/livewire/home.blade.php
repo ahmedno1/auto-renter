@@ -79,7 +79,7 @@ Auto Renter provides a platform for car owners to rent their cars and also helps
 
         <h2 class="text-2xl md:text-7xl font-bold text-center mb-15">Cars</h2>
 
-        <form class="max-w-lg mx-auto m-15">
+        <form class="max-w-2xl mx-auto m-15">
             <div class="flex">
                 <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
                 <button id="dropdown-button" data-dropdown-toggle="dropdown" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white dark:hover:text-black dark:focus:ring-gray-700 dark:text-white" type="button">Sorted by</button>
@@ -100,7 +100,7 @@ Auto Renter provides a platform for car owners to rent their cars and also helps
                     </ul>
                 </div>
                 <div class="relative w-full">
-                    <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-black dark:border-black  dark:placeholder-gray-200 dark:text-white dark:focus:border-blue-500" placeholder="Search Mockups, Logos, Design Templates..." required />
+                    <input type="search" id="search-dropdown" class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 dark:bg-black dark:border-black  dark:placeholder-gray-200 dark:text-white" placeholder="Search Mockups, Logos, Design Templates..." required />
                     <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-black rounded-e-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-white">
                         <flux:icon.search class="dark:text-black"/>
                         <span class="sr-only">Search</span>
