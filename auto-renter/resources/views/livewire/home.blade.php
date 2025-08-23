@@ -1,6 +1,6 @@
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
     <!-- Hero section -->
-    <section class="relative bg-black text-white rounded-b-[100px] sm:rounded-b-[200px] md:rounded-b-[50%]">
+    <section class="relative bg-accent dark:bg-black text-white rounded-b-[100px] sm:rounded-b-[200px] md:rounded-b-[50%]">
         <div class="container mx-auto px-6 lg:px-16 py-16 flex flex-col-reverse lg:flex-row items-center gap-12">
             <div class="flex-1 text-center lg:text-left">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
@@ -13,7 +13,7 @@
                     <a href="#cars" class=" bg-white hover:bg-[#d24122] hover:text-white text-black px-6 py-3 rounded-full shadow-lg transition">
                         Rent a Car
                     </a>
-                    <a href="#learn-more" class="border border-gray-400 hover:border-white px-6 py-3 rounded-full transition">
+                    <a href="#learn-more" class="border border-gray-300 hover:border-white px-6 py-3 rounded-full transition">
                         Learn More
                     </a>
                 </div>
@@ -29,43 +29,43 @@
 
         <h2 class="text-2xl md:text-7xl font-bold text-center mb-15">Why Auto Renter</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto px-6">
 
             <!-- Card 1 -->
-            <div class="bg-black text-white shadow rounded-lg p-8 text-center">
+            <div class="bg-accent text-accent-foreground shadow-lg rounded-lg p-8 text-center">
                 <div class="flex justify-center mb-4">
-                    <div class="bg-gray-100 p-3 rounded-full">
-                        <flux:icon.key-square class="text-[#d24122]" />
+                    <div class="bg-accent-foreground p-3 rounded-full">
+                        <flux:icon.key-square class="text-accent" />
                     </div>
                 </div>
                 <h3 class="text-lg font-bold mb-2">for the Owner</h3>
-                <p class="text-gray-500 text-sm">
+                <p class="text-accent-foreground text-sm">
                     Auto Renter provides a platform for car owners to rent their cars and also helps in the rental management process by organizing appointments, etc.
                 </p>
             </div>
 
             <!-- Card 2 (highlighted) -->
-            <div class="bg-gray-100 text-black shadow-lg rounded-lg p-8 text-center">
+            <div class="bg-gray-100 text-accent dark:bg-black shadow-lg rounded-lg p-8 text-center">
                 <div class="flex justify-center mb-4">
-                    <div class="bg-black p-3 rounded-full">
-                        <flux:icon.lightbulb class="text-yellow-200" />
+                    <div class="bg-accent p-3 rounded-full">
+                        <flux:icon.lightbulb class="text-accent-foreground" />
                     </div>
                 </div>
                 <h3 class="text-lg font-bold mb-2">our goal</h3>
-                <p class="text-black text-sm">
+                <p class="text-accent text-sm">
                     The Auto Renter app is designed to make the car rental process easier for both customers and car owners.
                 </p>
             </div>
 
             <!-- Card 3 -->
-            <div class="bg-black text-white shadow rounded-lg p-8 text-center">
+            <div class="bg-accent text-accent-foreground shadow-lg rounded-lg p-8 text-center">
                 <div class="flex justify-center mb-4">
-                    <div class="bg-gray-100 p-3 rounded-full">
-                        <flux:icon.person-standing class="text-[#d24122]" />
+                    <div class="bg-accent-foreground p-3 rounded-full">
+                        <flux:icon.person-standing class="text-accent" />
                     </div>
                 </div>
                 <h3 class="text-lg font-bold mb-2">customers</h3>
-                <p class="text-gray-500 text-sm">
+                <p class="text-accent-foreground text-sm">
                     The Auto Rental app provides a platform for customers to rent cars and makes it easier for them to search for a suitable car or find it at the right time.
                 </p>
             </div>
@@ -109,16 +109,17 @@
             </div>
         </form>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-15 m-10">
             @forelse ($cars as $car)
-            <div class="bg-white dark:bg-slate-800 rounded shadow p-2">
+            <div class="bg-gray-100 dark:bg-black rounded-4xl p-10 text-center shadow-xl/30">
+                <h1 class="font-bold text-3xl">{{ $car->brand }} - {{ $car->model }}</h1>
+                <h2 class="font-bold text-2xl">{{ $car->year }}</h2>
                 <img src="{{ $car->image ? asset('storage/' . $car->image) : 'https://placehold.co/300x200?text=No+Image' }}"
                     alt="{{ $car->brand }}"
-                    class="w-full object-cover rounded">
-                <div class="mt-2 font-bold text-lg">{{ $car->brand }}</div>
-                <div class="text-sm">{{ $car->model }} - {{ $car->year }}</div>
-                <div class="text-sm"><b>Owner: </b>{{ $car->owner->name }}</div>
-                <flux:button wire:click="showCar({{ $car->id }})" class="mt-2 px-3 py-1 bg-gray-600 text-white rounded">
+                    class="w-full m-5 object-contain h-100">
+                <h3 class="font-bold text-2xl">{{ $car->daily_rent }} $/Day</h3>
+                <h3 class="font-bold text-2xl"><b>Owner: </b>{{ $car->owner->name }}</h3>
+                <flux:button wire:click="showCar({{ $car->id }})" variant="primary" class="mt-10">
                     Show details
                 </flux:button>
             </div>
