@@ -35,17 +35,6 @@ class SearchCars extends Component
 
         if ($this->query) {
             switch ($this->type) {
-                case 'availability':
-                    try {
-                        $date = Carbon::parse($this->query);
-                        $cars->whereDoesntHave('reservations', function ($q) use ($date) {
-                            $q->where('start_date', '<=', $date)
-                              ->where('end_date', '>=', $date);
-                        });
-                    } catch (\Exception $e) {
-                        // ignore invalid date
-                    }
-                    break;
                 case 'owner':
                     $cars->whereHas('owner', function ($q) {
                         $q->where('name', 'like', '%' . $this->query . '%');
@@ -53,7 +42,7 @@ class SearchCars extends Component
                     break;
                 case 'model':
                 default:
-                    $cars->where('model', 'like', '%' . $this->query . '%');
+                    $cars->where('brand', 'like', '%' . $this->query . '%');
                     break;
             }
         }

@@ -38,7 +38,7 @@
                         <flux:icon.key-square class="text-accent" />
                     </div>
                 </div>
-                <h3 class="text-lg font-bold mb-2">for the Owner</h3>
+                <h3 class="text-lg font-bold mb-2">The Owner</h3>
                 <p class="text-accent-foreground text-sm">
                     Auto Renter provides a platform for car owners to rent their cars and also helps in the rental management process by organizing appointments, etc.
                 </p>
@@ -64,7 +64,7 @@
                         <flux:icon.person-standing class="text-accent" />
                     </div>
                 </div>
-                <h3 class="text-lg font-bold mb-2">customers</h3>
+                <h3 class="text-lg font-bold mb-2">The customers</h3>
                 <p class="text-accent-foreground text-sm">
                     The Auto Rental app provides a platform for customers to rent cars and makes it easier for them to search for a suitable car or find it at the right time.
                 </p>
@@ -78,22 +78,80 @@
     <section class="mb-15">
 
         <h2 class="text-2xl md:text-7xl font-bold text-center mb-15">Cars</h2>
+<!-- Add Alpine if you don't already have it somewhere in your layout -->
+<script src="//unpkg.com/alpinejs" defer></script>
 
-        <form action="{{ route('search') }}" method="GET" class="max-w-2xl mx-auto m-15">
-             <label for="search-type" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search type</label>
-                <select id="search-type" name="type" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white dark:hover:text-black dark:focus:ring-gray-700 dark:text-white">
-                    <option value="availability">Availability date</option>
-                    <option value="model">Car model</option>
-                    <option value="owner">Car owner</option>
-                </select>
-            <div class="relative w-full">
-                        <input type="search" id="search-query" name="query" class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 dark:bg-black dark:border-black dark:placeholder-gray-200 dark:text-white" placeholder="Search..." required />                    <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-black rounded-e-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-white">
-                        <flux:icon.search class="dark:text-black" />
-                        <span class="sr-only">Search</span>
-                    </button>
-                </div>
-            </div>
-        </form>
+<form
+  action="{{ route('search') }}"
+  method="GET"
+  class="max-w-2xl mx-auto mt-6"
+  x-data="{
+      type: '{{ request('type', 'model') }}',
+      queryText: '{{ request('type') !== 'availability' ? e(request('query', '')) : '' }}',
+      queryDate: '{{ request('type') === 'availability' ? e(request('query', '')) : '' }}'
+  }"
+>
+  <label for="search-type" class="sr-only">Search type</label>
+
+  <div class="flex w-full">
+    <!-- TYPE SELECT -->
+    <select
+      id="search-type"
+      name="type"
+      x-model="type"
+      class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium
+             text-gray-900 bg-gray-100 rounded-l-lg hover:bg-gray-200 focus:ring-4
+             focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white
+             dark:hover:text-black dark:focus:ring-gray-700 dark:text-white"
+      aria-label="Choose search type"
+    >
+      <option value="model">Car brand</option>
+      <option value="owner">Car owner</option>
+      <option value="availability">Availability date</option>
+    </select>
+
+    <!-- INPUT WRAPPER -->
+    <div class="relative w-full">
+      <!-- TEXT SEARCH (model/owner) -->
+      <template x-if="type !== 'availability'">
+        <input
+          type="search"
+          name="query"
+          x-model="queryText"
+          class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-gray-300
+                 rounded-r-lg focus:ring-blue-500 dark:bg-black dark:border-black
+                 dark:placeholder-gray-200 dark:text-white"
+          :placeholder="type === 'model' ? 'Search by car brand…' : 'Search by owner name…'"
+          required
+        />
+      </template>
+
+      <!-- DATE PICKER (availability) -->
+      <template x-if="type === 'availability'">
+        <input
+          type="date"
+          name="query"
+          x-model="queryDate"
+          class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-gray-300
+                 rounded-r-lg focus:ring-blue-500 dark:bg-black dark:border-black
+                 dark:placeholder-gray-200 dark:text-white"
+          required
+        />
+      </template>
+
+      <!-- SUBMIT BUTTON -->
+      <button
+        type="submit"
+        class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-black
+               rounded-r-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300
+               dark:bg-white dark:text-black"
+        aria-label="Search"
+      >
+        <flux:icon.search class="dark:text-black" />
+      </button>
+    </div>
+  </div>
+</form>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-15 m-10">
             @forelse ($cars as $car)
