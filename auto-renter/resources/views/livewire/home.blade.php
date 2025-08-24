@@ -79,29 +79,15 @@
 
         <h2 class="text-2xl md:text-7xl font-bold text-center mb-15">Cars</h2>
 
-        <form class="max-w-2xl mx-auto m-15">
-            <div class="flex">
-                <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
-                <button id="dropdown-button" data-dropdown-toggle="dropdown" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white dark:hover:text-black dark:focus:ring-gray-700 dark:text-white" type="button">Sorted by</button>
-                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-black">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-                        <li>
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mockups</button>
-                        </li>
-                        <li>
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Templates</button>
-                        </li>
-                        <li>
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Design</button>
-                        </li>
-                        <li>
-                            <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logos</button>
-                        </li>
-                    </ul>
-                </div>
-                <div class="relative w-full">
-                    <input type="search" id="search-dropdown" class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 dark:bg-black dark:border-black  dark:placeholder-gray-200 dark:text-white" placeholder="Search Mockups, Logos, Design Templates..." required />
-                    <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-black rounded-e-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-white">
+        <form action="{{ route('search') }}" method="GET" class="max-w-2xl mx-auto m-15">
+             <label for="search-type" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search type</label>
+                <select id="search-type" name="type" class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white dark:hover:text-black dark:focus:ring-gray-700 dark:text-white">
+                    <option value="availability">Availability date</option>
+                    <option value="model">Car model</option>
+                    <option value="owner">Car owner</option>
+                </select>
+            <div class="relative w-full">
+                        <input type="search" id="search-query" name="query" class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 dark:bg-black dark:border-black dark:placeholder-gray-200 dark:text-white" placeholder="Search..." required />                    <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-black rounded-e-lg hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-white">
                         <flux:icon.search class="dark:text-black" />
                         <span class="sr-only">Search</span>
                     </button>
