@@ -8,6 +8,8 @@ use App\Models\Car;
 use App\Models\Reservation;
 use Livewire\WithPagination;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+
 
 #[Layout('components.layouts.app.header')]
 class Home extends Component
@@ -17,10 +19,26 @@ class Home extends Component
     public $selectedCar = null;
     public $start_date;
     public $end_date;
+    public array $disabledDates = [];
+
 
     public function showCar($id)
     {
-        $this->selectedCar = Car::with('owner')->find($id);
+        $this->selectedCar = Car::with(['owner', 'reservations'])->find($id);
+        $this->disabledDates = [];
+
+        if ($this->selectedCar) {
+            foreach ($this->selectedCar->reservations as $reservation) {
+                $period = CarbonPeriod::create($reservation->start_date, $reservation->end_date);
+
+                foreach ($period as $date) {
+                    $this->disabledDates[] = $date->toDateString();
+                }
+            }
+
+            $this->disabledDates = array_values(array_unique($this->disabledDates));
+        }
+
         \Flux\Flux::modal('car-details')->show();
     }
 
@@ -70,6 +88,53 @@ class Home extends Component
         $this->reset(['start_date', 'end_date']);
         \Flux\Flux::modal('car-details')->close();
     }
+
+        public function updatedStartDate()
+    {
+        if ($this->end_date) {
+            $end = Carbon::parse($this->end_date);
+            $start = Carbon::parse($this->start_date);
+
+            if ($end->lt($start) || in_array($this->end_date, $this->disabledDates)) {
+                $this->end_date = null;
+            }
+        }
+    }
+
+    public function updatedEndDate()
+    {
+        if ($this->end_date && $this->start_date) {
+            $end = Carbon::parse($this->end_date);
+            $start = Carbon::parse($this->start_date);
+
+            if ($end->lt($start) || in_array($this->end_date, $this->disabledDates)) {
+                $this->end_date = null;
+            }
+        }
+    }
+
+    public function nextAvailableDate()
+    {
+        if (!$this->start_date) {
+            return null;
+        }
+
+        $start = Carbon::parse($this->start_date);
+        $dates = $this->disabledDates;
+        sort($dates);
+
+        foreach ($dates as $date) {
+            $d = Carbon::parse($date);
+
+            if ($d->gt($start)) {
+                return $d->subDay()->toDateString();
+            }
+        }
+
+        return null;
+    }
+
+
 
     public function render()
     {
