@@ -196,10 +196,18 @@
                 @if ($selectedCar->status === 'available')
                 <div class="space-y-2 mt-4">
                     <label>from date:</label>
-                    <flux:input type="date" wire:model="start_date" />
-
+                    <flux:datepicker
+                        wire:model="start_date"
+                        :min="now()->toDateString()"
+                        :disable="$disabledDates"
+                     />
                     <label>to date:</label>
-                    <flux:input type="date" wire:model="end_date" />
+                    <flux:datepicker
+                        wire:model="end_date"
+                        :min="$start_date"
+                        :max="$this->nextAvailableDate()"
+                        :disable="$disabledDates"
+                    />
 
                     <flux:button wire:click="rent" class="bg-green-600 text-white px-4 py-2 rounded">
                         Confirm renting
