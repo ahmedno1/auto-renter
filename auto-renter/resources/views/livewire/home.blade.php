@@ -111,12 +111,12 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-15 m-10">
             @forelse ($cars as $car)
-            <div class="bg-gray-100 dark:bg-black rounded-4xl p-10 text-center shadow-xl/30">
+            <div class="bg-gray-100 dark:bg-black rounded-4xl p-10 text-center shadow-xl/30 border-4 border-accent">
                 <h1 class="font-bold text-3xl">{{ $car->brand }} - {{ $car->model }}</h1>
                 <h2 class="font-bold text-2xl">{{ $car->year }}</h2>
                 <img src="{{ $car->image ? asset('storage/' . $car->image) : 'https://placehold.co/300x200?text=No+Image' }}"
                     alt="{{ $car->brand }}"
-                    class="w-full m-5 object-contain h-100">
+                    class="w-full m-5 object-contain h-100 max-h-50">
                 <h3 class="font-bold text-2xl">{{ $car->daily_rent }} $/Day</h3>
                 <h3 class="font-bold text-2xl"><b>Owner: </b>{{ $car->owner->name }}</h3>
                 <flux:button wire:click="showCar({{ $car->id }})" variant="primary" class="mt-10">
