@@ -11,6 +11,7 @@ use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\TwoFactor;
 use App\Livewire\Auth\TwoFactorAuthentication;
 use App\Livewire\Cars;
+use App\Livewire\SearchCars;
 
 
 Route::get('/', function () {
@@ -24,6 +25,8 @@ Route::middleware(['auth', 'verified', 'role:owner'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('home', Home::class)->name('home');
+    Route::get('search', SearchCars::class)->name('search');
+
 });
 
 Route::middleware(['auth'])->group(function () {

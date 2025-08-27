@@ -7,11 +7,11 @@
         <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 p-5">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-            <a href="{{ route('dashboard') }}" class="me-5 items-center space-x-2 rtl:space-x-reverse hidden dark:flex" wire:navigate>
+            <a href="{{ route('home') }}" class="me-5 items-center space-x-2 rtl:space-x-reverse hidden dark:flex" wire:navigate>
                 <x-app-logo />
             </a>
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse dark:hidden" wire:navigate>
+            <a href="{{ route('home') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse dark:hidden" wire:navigate>
                 <x-dark-app-logo />
             </a>
             <flux:button x-data x-on:click="$flux.dark = ! $flux.dark" icon="moon" variant="subtle" aria-label="Toggle dark mode" />
@@ -20,9 +20,9 @@
                 <flux:dropdown>
                     <flux:navbar.item icon="layout-grid" icon:trailing="chevron-down">Dashboard</flux:navbar.item>
                     <flux:navmenu>
-                        <flux:navmenu.item href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navmenu.item>
-                        <flux:navmenu.item href="route('cars')" :current="request()->routeIs('cars')" wire:navigate>cars</flux:navmenu.item>
-                        <flux:navmenu.item href="#"  wire:navigate>booking</flux:navmenu.item>
+                        <flux:navmenu.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navmenu.item>
+                        <flux:navmenu.item :href="route('cars')" :current="request()->routeIs('cars')" wire:navigate>cars</flux:navmenu.item>
+                        <flux:navmenu.item href="#" wire:navigate>booking</flux:navmenu.item>
                     </flux:navmenu>
                 </flux:dropdown>
 
