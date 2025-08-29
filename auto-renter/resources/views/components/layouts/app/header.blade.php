@@ -22,7 +22,7 @@
                     <flux:navmenu>
                         <flux:navmenu.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navmenu.item>
                         <flux:navmenu.item :href="route('cars')" :current="request()->routeIs('cars')" wire:navigate>cars</flux:navmenu.item>
-                        <flux:navmenu.item href="#" wire:navigate>booking</flux:navmenu.item>
+                        <flux:navmenu.item :href="route('bookings')" :current="request()->routeIs('bookings')" wire:navigate>bookings</flux:navmenu.item>
                     </flux:navmenu>
                 </flux:dropdown>
 
@@ -32,25 +32,14 @@
 
             <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
                 <flux:tooltip :content="__('Search')" position="bottom">
-                    <flux:navbar.item class="!h-10 [&>div>svg]:size-5" icon="magnifying-glass" href="#" :label="__('Search')" />
-                </flux:tooltip>
-                <flux:tooltip :content="__('Repository')" position="bottom">
-                    <flux:navbar.item
-                        class="h-10 max-lg:hidden [&>div>svg]:size-5"
-                        icon="folder-git-2"
-                        href="https://github.com/laravel/livewire-starter-kit"
-                        target="_blank"
-                        :label="__('Repository')"
-                    />
-                </flux:tooltip>
-                <flux:tooltip :content="__('Documentation')" position="bottom">
-                    <flux:navbar.item
-                        class="h-10 max-lg:hidden [&>div>svg]:size-5"
-                        icon="book-open-text"
-                        href="https://laravel.com/docs/starter-kits#livewire"
-                        target="_blank"
-                        label="Documentation"
-                    />
+                    <flux:navmenu.item
+                        :href="route('search')" 
+                        :current="request()->routeIs('search')" 
+                        wire:navigate
+                        icon="magnifying-glass" 
+                        :label="__('Search')">
+                    </flux:navmenu.item>
+
                 </flux:tooltip>
             </flux:navbar>
 

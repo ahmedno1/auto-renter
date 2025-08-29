@@ -3,33 +3,42 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Reservation;
 
 class Bookings extends Component
 {
-    public $carId;
-    public $start_date;
-    public $end_date;
+    use WithPagination;
 
-    public function rent(){
-        $car = Car::findOrFail($this->carId);
-
-        if(!$car->isAvailableBetween($this->start_date, $this->end_date))
-        {
-            session()->flash('error', 'Car is rented in this time.');
+    public function updateStatus(int $reservationId, string $status): void
+    {
+        if (!in_array($status, ['approved', 'rejected'], true)) {
             return;
         }
 
-        Reservation::create([
-            'car_id' => $car->id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
-        ]);
+        $reservation = Reservation::with('car')
+            ->where('id', $reservationId)
+            ->first();
 
-        session()->flash('success', 'renting os done)
+        if (!$reservation || $reservation->car->owner_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $reservation->update(['status' => $status]);
+        session()->flash('success', 'Reservation status updated.');
     }
 
     public function render()
     {
-        return view('livewire.bookings.bookings');
+        $reservations = Auth::user()
+            ->receivedReservations()
+            ->with(['car.owner', 'customer'])
+            ->latest()
+            ->paginate(10);
+
+        return view('livewire.owner.bookings.bookings', [
+            'reservations' => $reservations,
+        ]);
     }
 }

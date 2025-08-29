@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -50,9 +51,27 @@ class User extends Authenticatable
         ];
     }
 
-        public function cars(): HasMany
+    public function cars(): HasMany
     {
         return $this->hasMany(Car::class, 'owner_id');
+    }
+
+    public function customerReservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class, 'customer_id');
+    }
+
+    public function receivedReservations(): HasManyThrough
+    {
+        // Reservations for all cars owned by this user
+        return $this->hasManyThrough(
+            Reservation::class,
+            Car::class,
+            'owner_id',   // Foreign key on cars table...
+            'car_id',     // Foreign key on reservations table...
+            'id',         // Local key on users table...
+            'id'          // Local key on cars table...
+        );
     }
 
     /**

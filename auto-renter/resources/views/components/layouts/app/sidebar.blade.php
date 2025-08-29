@@ -20,6 +20,7 @@
                          @if($isOwner)
                         <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                         <flux:navlist.item icon="car" :href="route('cars')" :current="request()->routeIs('cars')" wire:navigate>{{ __('Cars') }}</flux:navlist.item>
+                        <flux:navlist.item icon="calendar-days" :href="route('bookings')" :current="request()->routeIs('bookings')" wire:navigate>{{ __('bookings') }}</flux:navlist.item>
                         @endif
                     </flux:navlist.group>
                 </flux:navlist>

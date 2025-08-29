@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 
 class Car extends Model
@@ -30,7 +32,7 @@ class Car extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function reservations()
+    public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
     }
@@ -39,5 +41,17 @@ class Car extends Model
     public function getImageUrl(): string
     {
         return $this->image ? asset('storage/' . $this->image) : 'https://placehold.co/120x80?text=Car';
+    }
+
+    public function isAvailableBetween($start, $end): bool
+    {
+        $start = $start instanceof Carbon ? $start : Carbon::parse($start);
+        $end = $end instanceof Carbon ? $end : Carbon::parse($end);
+
+        // Block if any reservation overlaps, considering pending or approved
+        return !$this->reservations()
+            ->whereIn('status', ['pending', 'approved'])
+            ->overlapping($start, $end)
+            ->exists();
     }
 }

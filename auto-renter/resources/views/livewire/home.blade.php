@@ -79,8 +79,6 @@
 
         <h2 class="text-2xl md:text-7xl font-bold text-center mb-15">Cars</h2>
         <!-- Search bar -->
-        <script src="//unpkg.com/alpinejs" defer></script>
-
         <form
         action="{{ route('search') }}"
         method="GET"
@@ -122,7 +120,6 @@
                         rounded-r-lg focus:ring-blue-500 dark:bg-black dark:border-black
                         dark:placeholder-gray-200 dark:text-white"
                 :placeholder="type === 'model' ? 'Search by car brand…' : 'Search by owner name…'"
-                required
                 />
             </template>
 
@@ -135,7 +132,6 @@
                 class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-gray-300
                         rounded-r-lg focus:ring-blue-500 dark:bg-black dark:border-black
                         dark:placeholder-gray-200 dark:text-white"
-                required
                 />
             </template>
 
@@ -194,10 +190,37 @@
                 <div class="text-sm">owner: {{ $selectedCar->owner->name }}</div>
 
                 @if ($selectedCar->status === 'available')
-                <div class="space-y-2 mt-4">
-                    <label>from date:</label>
+                <div class="space-y-3 mt-4">
+                    @if (session('error'))
+                        <div class="text-red-600 text-sm">{{ session('error') }}</div>
+                    @endif
+                    @if (session('success'))
+                        <div class="text-green-600 text-sm">{{ session('success') }}</div>
+                    @endif
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm mb-1">From</label>
+                            <input type="date"
+                                   wire:model="start_date"
+                                   min="{{ \Carbon\Carbon::now()->toDateString() }}"
+                                   class="block p-2 w-full text-sm bg-gray-50 border border-gray-300 rounded dark:bg-black dark:border-black dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm mb-1">To</label>
+                            <input type="date"
+                                   wire:model="end_date"
+                                   min="{{ $start_date ?? \Carbon\Carbon::now()->toDateString() }}"
+                                   class="block p-2 w-full text-sm bg-gray-50 border border-gray-300 rounded dark:bg-black dark:border-black dark:text-white">
+                        </div>
+                    </div>
+
+                    @if ($this->estimatedTotal)
+                        <div class="text-sm">Estimated total: ${{ $this->estimatedTotal }}</div>
+                    @endif
+
                     <flux:button wire:click="rent" class="bg-green-600 text-white px-4 py-2 rounded">
-                        Confirm renting
+                        Confirm booking
                     </flux:button>
                 </div>
                 @else
