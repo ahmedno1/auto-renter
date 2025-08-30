@@ -9,7 +9,7 @@
     @endif
 
     <div class="overflow-x-auto">
-        <table class="min-w-full bg-white dark:bg-black border">
+        <table class="overflow-hidden w-full bg-zinc-100 dark:bg-zinc-700 shadow-md rounded-lg mt-5">
             <thead>
                 <tr class="bg-gray-100 dark:bg-zinc-900">
                     <th class="px-4 py-2 text-left">#</th>

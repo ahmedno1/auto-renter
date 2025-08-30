@@ -115,9 +115,9 @@
                 type="search"
                 name="query"
                 x-model="queryText"
-                class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border-2 border-black
+                class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border-2 border-accent
                         rounded-r-lg hover:bg-gray-200 focus:ring-blue-500
-                      dark:bg-black dark:border-white dark:text-white dark:hover:bg-white  dark:hover:text-black"
+                      dark:bg-black dark:text-white dark:hover:bg-white  dark:hover:text-black"
                 :placeholder="type === 'model' ? 'Search by car brand…' : 'Search by owner name…'"
                 />
             </template>
@@ -128,8 +128,8 @@
                 type="date"
                 name="query"
                 x-model="queryDate"
-                class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-black
-                        rounded-r-lg placeholder-black focus:ring-blue-500 dark:bg-black dark:border-black
+                class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border-2 border-accent
+                        rounded-r-lg placeholder-black focus:ring-blue-500 dark:bg-black
                         dark:placeholder-gray-200 dark:text-white"
                 />
             </template>
