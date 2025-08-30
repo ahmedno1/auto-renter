@@ -1,22 +1,30 @@
-<!-- Search section-->
-<section class="flex gap-6">
-<!-- Filters -->
-    <aside class="w-1/4 space-y-4 m-5">
+<div class="flex gap-6">
+    <aside class="w-1/4 space-y-4">
         <h2 class="text-xl font-bold mb-4">Filters</h2>
         <div>
             <label for="brand" class="block mb-2">Brand</label>
-            <select id="brand" wire:model="brand" class="w-full p-2 border-2 rounded border-accent bg-gray-50 dark:bg-black dark:text-white">
+            <select id="brand" wire:model="brand" class="w-full p-2 border rounded bg-gray-50 dark:bg-black dark:text-white">
                 <option value="">All</option>
                 @foreach($brands as $brandOption)
                     <option value="{{ $brandOption }}">{{ $brandOption }}</option>
                 @endforeach
             </select>
         </div>
+
+        <style>
+            /* Minimal thumb styling for range inputs */
+            .range-thumb::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; height: 16px; width: 16px; border-radius: 9999px; background: #111827; border: 2px solid white; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+            .range-thumb::-moz-range-thumb { height: 16px; width: 16px; border-radius: 9999px; background: #111827; border: 2px solid white; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+            .range-thumb::-webkit-slider-runnable-track { background: transparent; height: 4px; }
+            .range-thumb::-moz-range-track { background: transparent; height: 4px; }
+            .dark .range-thumb::-webkit-slider-thumb { background: #ffffff; border-color: #111827; }
+            .dark .range-thumb::-moz-range-thumb { background: #ffffff; border-color: #111827; }
+        </style>
     </aside>
     <div class="w-3/4">
-        <h2 class="text-2xl font-bold m-5">Search Results</h2>
+        <h2 class="text-2xl font-bold mb-4">Search Results</h2>
 
-<!-- Add Alpine if you don't already have it somewhere in your layout -->
+        <!-- Add Alpine if you don't already have it somewhere in your layout -->
 <script src="//unpkg.com/alpinejs" defer></script>
 
 <form
@@ -38,9 +46,9 @@
       name="type"
       x-model="type"
       class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium
-            text-gray-900 bg-gray-100 rounded-l-lg border-2 border-accent hover:bg-gray-200 focus:ring-4
-              focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white
-            dark:hover:text-black dark:focus:ring-gray-700 dark:text-white"
+             text-gray-900 bg-gray-100 rounded-l-lg hover:bg-gray-200 focus:ring-4
+             focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white
+             dark:hover:text-black dark:focus:ring-gray-700 dark:text-white"
       aria-label="Choose search type"
     >
       <option value="model">Car brand</option>
@@ -56,9 +64,9 @@
           type="search"
           name="query"
           x-model="queryText"
-          class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border-2 border-black
-                  rounded-r-lg hover:bg-gray-200 focus:ring-blue-500
-                dark:bg-black dark:border-white dark:text-white dark:hover:bg-white  dark:hover:text-black"
+          class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-gray-300
+                 rounded-r-lg focus:ring-blue-500 dark:bg-black dark:border-black
+                 dark:placeholder-gray-200 dark:text-white"
           :placeholder="type === 'model' ? 'Search by car brand…' : 'Search by owner name…'"
           required
         />
@@ -70,9 +78,9 @@
           type="date"
           name="query"
           x-model="queryDate"
-          class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-black
-                  rounded-r-lg placeholder-black focus:ring-blue-500 dark:bg-black dark:border-black
-                dark:placeholder-gray-200 dark:text-white"
+          class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-gray-300
+                 rounded-r-lg focus:ring-blue-500 dark:bg-black dark:border-black
+                 dark:placeholder-gray-200 dark:text-white"
           required
         />
       </template>
@@ -81,11 +89,11 @@
       <button
         type="submit"
         class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-black
-                rounded-r-lg before-2 focus:ring-4 focus:outline-none focus:ring-gray-300 hover:bg-gray-300 hover:text-accent
-              dark:bg-white dark:text-black  dark:hover:bg-black"
+               rounded-r-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300
+               dark:bg-white dark:text-black"
         aria-label="Search"
       >
-        <flux:icon.search />
+        <flux:icon.search class="dark:text-black" />
       </button>
     </div>
   </div>
@@ -111,4 +119,4 @@
             {{ $cars->links() }}
         </div>
     </div>
-</section>
+</div>

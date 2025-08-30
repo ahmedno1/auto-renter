@@ -9,6 +9,7 @@ use App\Models\Reservation;
 use Livewire\WithPagination;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Auth;
 
 
 #[Layout('components.layouts.app.header')]
@@ -24,7 +25,10 @@ class Home extends Component
 
     public function showCar($id)
     {
-        $this->selectedCar = Car::with(['owner', 'reservations'])->find($id);
+        $this->selectedCar = Car::with([
+            'owner',
+            'reservations' => fn ($q) => $q->whereIn('status', ['pending', 'approved'])
+        ])->find($id);
         $this->disabledDates = [];
 
         if ($this->selectedCar) {
@@ -45,12 +49,17 @@ class Home extends Component
     public function rent()
     {
         if (!$this->selectedCar) {
-            session()->flash('error', 'لم يتم اختيار سيارة.');
+            session()->flash('error', 'Please select a car to book.');
+            return;
+        }
+
+        if (Auth::id() === $this->selectedCar->owner_id) {
+            session()->flash('error', 'You cannot book your own car.');
             return;
         }
 
         if (!$this->start_date || !$this->end_date) {
-            session()->flash('error', 'يرجى تحديد تاريخ البداية والنهاية.');
+            session()->flash('error', 'Please choose both start and end dates.');
             return;
         }
 
@@ -58,38 +67,33 @@ class Home extends Component
         $end = Carbon::parse($this->end_date);
 
         if ($start->gt($end)) {
-            session()->flash('error', 'تاريخ البداية يجب أن يكون قبل تاريخ النهاية.');
+            session()->flash('error', 'Start date must be before end date.');
             return;
         }
 
-        $overlap = $this->selectedCar->reservations()
-            ->where(function ($query) use ($start, $end) {
-                $query->whereBetween('start_date', [$start, $end])
-                      ->orWhereBetween('end_date', [$start, $end])
-                      ->orWhere(function ($q) use ($start, $end) {
-                          $q->where('start_date', '<=', $start)
-                            ->where('end_date', '>=', $end);
-                      });
-            })
-            ->exists();
-
-        if ($overlap) {
-            session()->flash('error', 'السيارة محجوزة في هذه الفترة.');
+        if (!$this->selectedCar->isAvailableBetween($start, $end)) {
+            session()->flash('error', 'This car is not available for the selected dates.');
             return;
         }
+
+        $days = $start->diffInDays($end) + 1; // inclusive
+        $total = $days * (float) $this->selectedCar->daily_rent;
 
         Reservation::create([
             'car_id' => $this->selectedCar->id,
-            'start_date' => $start,
-            'end_date' => $end,
+            'customer_id' => Auth::id(),
+            'start_date' => $start->toDateString(),
+            'end_date' => $end->toDateString(),
+            'total_price' => $total,
+            'status' => 'pending',
         ]);
 
-        session()->flash('success', 'تم الحجز بنجاح.');
+        session()->flash('success', 'Booking submitted. Waiting for owner approval.');
         $this->reset(['start_date', 'end_date']);
         \Flux\Flux::modal('car-details')->close();
     }
 
-        public function updatedStartDate()
+    public function updatedStartDate()
     {
         if ($this->end_date) {
             $end = Carbon::parse($this->end_date);
@@ -134,7 +138,22 @@ class Home extends Component
         return null;
     }
 
+    public function getEstimatedTotalProperty(): ?string
+    {
+        if (!$this->selectedCar || !$this->start_date || !$this->end_date) {
+            return null;
+        }
 
+        $start = Carbon::parse($this->start_date);
+        $end = Carbon::parse($this->end_date);
+        if ($end->lt($start)) {
+            return null;
+        }
+
+        $days = $start->diffInDays($end) + 1;
+        $total = $days * (float) $this->selectedCar->daily_rent;
+        return number_format($total, 2);
+    }
 
     public function render()
     {
