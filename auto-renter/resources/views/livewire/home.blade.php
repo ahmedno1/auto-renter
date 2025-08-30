@@ -100,7 +100,7 @@
             name="type"
             x-model="type"
             class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium
-                    text-gray-900 bg-gray-100 rounded-l-lg hover:bg-gray-200 focus:ring-4
+                    text-gray-900 bg-gray-100 rounded-l-lg border-2 border-accent hover:bg-gray-200 focus:ring-4
                     focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white
                     dark:hover:text-black dark:focus:ring-gray-700 dark:text-white"
             aria-label="Choose search type"
@@ -118,9 +118,9 @@
                 type="search"
                 name="query"
                 x-model="queryText"
-                class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-gray-300
-                        rounded-r-lg focus:ring-blue-500 dark:bg-black dark:border-black
-                        dark:placeholder-gray-200 dark:text-white"
+                class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border-2 border-black
+                        rounded-r-lg hover:bg-gray-200 focus:ring-blue-500
+                      dark:bg-black dark:border-white dark:text-white dark:hover:bg-white  dark:hover:text-black"
                 :placeholder="type === 'model' ? 'Search by car brand…' : 'Search by owner name…'"
                 required
                 />
@@ -132,8 +132,8 @@
                 type="date"
                 name="query"
                 x-model="queryDate"
-                class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-gray-300
-                        rounded-r-lg focus:ring-blue-500 dark:bg-black dark:border-black
+                class="block p-3 w-full z-20 text-sm text-gray-900 bg-gray-50 border border-black
+                        rounded-r-lg placeholder-black focus:ring-blue-500 dark:bg-black dark:border-black
                         dark:placeholder-gray-200 dark:text-white"
                 required
                 />
@@ -143,16 +143,16 @@
             <button
                 type="submit"
                 class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-black
-                    rounded-r-lg hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300
-                    dark:bg-white dark:text-black"
+                    rounded-r-lg before-2 focus:ring-4 focus:outline-none focus:ring-gray-300 hover:bg-gray-300 hover:text-accent
+                    dark:bg-white dark:text-black  dark:hover:bg-black"
                 aria-label="Search"
             >
-                <flux:icon.search class="dark:text-black" />
+                <flux:icon.search/>
             </button>
             </div>
         </div>
         </form>
-
+        <!-- car cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-15 m-4 sm:m-6 lg:m-10">
             @forelse ($cars as $car)
             <div class="bg-gray-100 dark:bg-black rounded-4xl p-10 text-center shadow-xl/30 border-4 border-accent">
