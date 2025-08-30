@@ -48,8 +48,8 @@
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->description }}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->status }}</td>
                 <td class="px-4 py-2 text-center space-x-2">
-                    <flux:button wire:click="edit({{ $car->id }})">Edit</flux:button>
-                    <flux:button variant="danger" wire:click="delete({{ $car->id }})">Delete</flux:button>
+                    <flux:button wire:click="edit({{ $car->id }})" class="m-2">Edit</flux:button>
+                    <flux:button variant="danger" wire:click="delete({{ $car->id }})" class="m-2">Delete</flux:button>
                 </td>
             </tr>
             @empty

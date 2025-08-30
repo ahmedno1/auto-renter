@@ -98,8 +98,7 @@
             name="type"
             x-model="type"
             class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium
-                    text-gray-900 bg-gray-100 rounded-l-lg border-2 border-accent hover:bg-gray-200 focus:ring-4
-                    focus:outline-none focus:ring-gray-100 dark:bg-black dark:hover:bg-white
+                    text-gray-900 bg-gray-100 rounded-l-lg border-2 border-accent border-r-0 hover:bg-gray-200 dark:bg-black dark:hover:bg-white
                     dark:hover:text-black dark:focus:ring-gray-700 dark:text-white"
             aria-label="Choose search type"
             >
