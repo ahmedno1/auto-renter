@@ -3,7 +3,7 @@
 <section class="flex gap-6">
 
   <!-- Filters sidebar -->
-  <aside class="w-72 shrink-0 space-y-6 p-5 border-4 border-black rounded-4xl bg-gray-100 backdrop-blur-sm shadow-xl/30 dark:bg-black dark:border-white">
+  <aside class="w-72 h-100 sm:h-283 mt-20 sm:mt-61 ml-20 shrink-0 space-y-6 p-5 border-4 border-black rounded-4xl bg-gray-100 backdrop-blur-sm shadow-xl/30 dark:bg-black dark:border-white">
     <flux:heading size="l" level="1">{{ __('Search Filters') }}</flux:heading>
     <flux:separator variant="subtle" />
 
@@ -100,7 +100,7 @@
   </aside>
 
   <!-- Results + Search -->
-  <div class="flex-1">
+  <div class="flex-1 m-10">
     <flux:heading size="xl" level="1">{{ __('Search') }}</flux:heading>
     <flux:subheading size="lg" class="mb-6">{{ __('What are you looking for?') }}</flux:subheading>
     <flux:separator variant="subtle" />
@@ -187,25 +187,26 @@
       </div>
     </form>
 
-    <!-- Results grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 m-10">
-      @forelse ($cars as $car)
-        <div class="bg-gray-100 dark:bg-black rounded-4xl p-6 text-center shadow-xl/30 border-4 border-accent">
-          <h1 class="font-bold text-2xl">{{ $car->brand }} - {{ $car->model }}</h1>
-          <h2 class="font-semibold text-xl">{{ $car->year }}</h2>
-          <img
-            src="{{ $car->image ? asset('storage/' . $car->image) : 'https://placehold.co/300x200?text=No+Image' }}"
-            alt="{{ $car->brand }}"
-            class="w-full my-4 object-contain h-56"
-          >
-          <h3 class="font-bold text-xl">{{ $car->daily_rent }} $/Day</h3>
-          <h3 class="font-semibold text-lg"><b>Owner:</b> {{ $car->owner->name }}</h3>
+    <!-- car cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-15 m-4 sm:m-6 lg:m-10">
+        @forelse ($cars as $car)
+        <div class="bg-gray-100 dark:bg-black rounded-4xl p-10 text-center shadow-xl/30 border-4 border-accent">
+            <h1 class="font-bold text-3xl">{{ $car->brand }} - {{ $car->model }}</h1>
+            <h2 class="font-bold text-2xl">{{ $car->year }}</h2>
+            <img src="{{ $car->image ? asset('storage/' . $car->image) : 'https://placehold.co/300x200?text=No+Image' }}"
+                alt="{{ $car->brand }}"
+                class="w-full m-5 object-contain h-50 sm:h-40">
+            <h3 class="font-bold text-2xl">{{ $car->daily_rent }} $/Day</h3>
+            <h3 class="font-bold text-2xl"><b>Owner: </b>{{ $car->owner->name }}</h3>
+            <flux:button wire:click="showCar({{ $car->id }})" variant="primary" class="mt-10">
+                Show details
+            </flux:button>
         </div>
-      @empty
+        @empty
         <div class="col-span-3 text-center text-gray-500 dark:text-gray-400">
-          No cars found.
+            no cars yet.
         </div>
-      @endforelse
+        @endforelse
     </div>
 
     <!-- Pagination -->

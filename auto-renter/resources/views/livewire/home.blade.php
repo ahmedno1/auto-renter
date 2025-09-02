@@ -168,7 +168,7 @@
             </div>
             @endforelse
         </div>
-
+        <!-- Pagination -->
         <div class="mt-4">
             {{ $cars->links('vendor.pagination.tailwind') }}
         </div>
