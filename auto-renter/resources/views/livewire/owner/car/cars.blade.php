@@ -21,7 +21,7 @@
 
     <livewire:create-car />
     <livewire:edit-car />
-
+    <div class="overflow-x-auto">
     <table class="overflow-hidden w-full  bg-zinc-100 dark:bg-zinc-700 shadow-md rounded-lg mt-5">
         <thead class="bg-zinc-200 dark:bg-zinc-900">
             <tr>
@@ -39,14 +39,20 @@
             @forelse ($cars as $car)
             <tr class="border-t border-gray-300 dark:border-gray-700">
                 <td class="px-1 py-1">
-                    <img src="{{ $car->getImageUrl() }}" alt="Photo of {{ $car->brand }} {{ $car->model }}" class="w-10 h-10 object-cover">
+                    <img src="{{ $car->getImageUrl() }}" alt="Photo of {{ $car->brand }} {{ $car->model }}" class="w-20 h-20 m-10">
                 </td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->brand }}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->model }}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->year }}</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->daily_rent }}$</td>
                 <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->description }}</td>
-                <td class="px-4 py-2 text-gray-900 dark:text-gray-100">{{ $car->status }}</td>
+                <td class="px-4 py-2 text-gray-900 dark:text-gray-100">
+                    @if($car->status === 'available')
+                    <div class="text-green-500">{{ $car->status }}</div>
+                    @elseif($car->status === 'unavailable')
+                    <div class="text-red-500">{{ $car->status }}</div>
+                    @endif
+                </td>
                 <td class="px-4 py-2 text-center space-x-2">
                     <flux:button wire:click="edit({{ $car->id }})" class="m-2">Edit</flux:button>
                     <flux:button variant="danger" wire:click="delete({{ $car->id }})" class="m-2">Delete</flux:button>
@@ -61,6 +67,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
     <div class="mt-4">
         {{ $cars->links() }}
