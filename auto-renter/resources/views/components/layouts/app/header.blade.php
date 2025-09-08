@@ -17,7 +17,7 @@
             <flux:button x-data x-on:click="$flux.dark = ! $flux.dark" icon="moon" variant="subtle" aria-label="Toggle dark mode" />
             @if($isOwner)
             
-                <flux:dropdown>
+                <flux:dropdown class="lg:hidden">
                     <flux:navbar.item icon="layout-grid" icon:trailing="chevron-down">Dashboard</flux:navbar.item>
                     <flux:navmenu>
                         <flux:navmenu.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navmenu.item>

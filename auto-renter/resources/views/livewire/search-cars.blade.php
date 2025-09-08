@@ -1,16 +1,16 @@
 {{-- resources/views/livewire/search-cars.blade.php --}}
 
-<section class="flex gap-6">
+<section class="flex gap-6 items-start">
 
   <!-- Filters sidebar -->
-  <aside class="w-72 h-100 sm:h-283 mt-20 sm:mt-61 ml-20 shrink-0 space-y-6 p-5 border-4 border-black rounded-4xl bg-gray-100 backdrop-blur-sm shadow-xl/30 dark:bg-black dark:border-white">
+  <aside class="w-72 m-10 shrink-0 space-y-6 p-5 border-4 hidden sm:block border-black rounded-4xl bg-gray-100 backdrop-blur-sm shadow-xl/30 dark:bg-black dark:border-white">
     <flux:heading size="l" level="1">{{ __('Search Filters') }}</flux:heading>
     <flux:separator variant="subtle" />
 
     <!-- Brand select -->
     <div class="space-y-2">
       <div class="flex items-center gap-2">
-        <label for="brand" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Brand</label>
+        <label for="brand" class="block text-sm font-medium text-accent">Brand</label>
         <flux:icon.car class="h-4 w-4" />
       </div>
 
@@ -29,7 +29,7 @@
 
     <!-- Price range -->
     <div class="space-y-3">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Price Range (per day)</label>
+      <label class="block text-sm font-medium text-accent">Price Range (per day)</label>
 
       <div class="flex items-center justify-between text-sm">
         <span class="inline-flex items-center gap-1 rounded-md bg-black px-2 py-1 text-white dark:bg-white dark:text-black">
@@ -48,10 +48,10 @@
 
       <div class="relative pt-6 pb-4 px-1">
         <!-- Background track -->
-        <div class="absolute left-0 right-0 top-1/2 h-1 -translate-y-1/2 rounded bg-black dark:bg-white"></div>
+        <div class="absolute left-0 right-0 top-1/2 h-1 -translate-y-1/2 rounded bg-gray-400"></div>
 
         <!-- Selected range highlight -->
-        <div class="absolute top-1/2 h-1 -translate-y-1/2 rounded bg-black dark:bg-black"
+        <div class="absolute top-1/2 h-1 -translate-y-1/2 rounded bg-black dark:bg-white"
              style="left: calc({{ $__startPct }}%); right: calc({{ 100 - $__endPct }}%);"></div>
 
         <!-- Lower bound slider -->
@@ -186,7 +186,102 @@
         </div>
       </div>
     </form>
+      <!-- Filters sidebar -->
+  <aside class="w-120 m-10 shrink-0 space-y-6 p-5 border-4 sm:hidden block border-black rounded-4xl bg-gray-100 backdrop-blur-sm shadow-xl/30 dark:bg-black dark:border-white">
+    <flux:heading size="l" level="1">{{ __('Search Filters') }}</flux:heading>
+    <flux:separator variant="subtle" />
 
+    <!-- Brand select -->
+    <div class="space-y-2">
+      <div class="flex items-center gap-2">
+        <label for="brand" class="block text-sm font-medium text-accent">Brand</label>
+        <flux:icon.car class="h-4 w-4" />
+      </div>
+
+      <flux:select
+        size="sm"
+        placeholder="Choose the brand"
+        id="brand"
+        wire:model.live="brand"
+      >
+        <flux:select.option value="">All brands</flux:select.option>
+        @foreach($brands as $brandOption)
+          <flux:select.option value="{{ $brandOption }}">{{ $brandOption }}</flux:select.option>
+        @endforeach
+      </flux:select>
+    </div>
+
+    <!-- Price range -->
+    <div class="space-y-3">
+      <label class="block text-sm font-medium text-accent">Price Range (per day)</label>
+
+      <div class="flex items-center justify-between text-sm">
+        <span class="inline-flex items-center gap-1 rounded-md bg-black px-2 py-1 text-white dark:bg-white dark:text-black">
+          Min: <strong>{{ number_format($priceMin, 2) }} $</strong>
+        </span>
+        <span class="inline-flex items-center gap-1 rounded-md bg-black px-2 py-1 text-white dark:bg-white dark:text-black">
+          Max: <strong>{{ number_format($priceMax, 2) }} $</strong>
+        </span>
+      </div>
+
+      @php
+        $__total = max(1e-9, ($maxPrice ?? 0) - ($minPrice ?? 0));
+        $__startPct = isset($priceMin, $minPrice) ? (($priceMin - $minPrice) / $__total) * 100 : 0;
+        $__endPct = isset($priceMax, $minPrice) ? (($priceMax - $minPrice) / $__total) * 100 : 100;
+      @endphp
+
+      <div class="relative pt-6 pb-4 px-1">
+        <!-- Background track -->
+        <div class="absolute left-0 right-0 top-1/2 h-1 -translate-y-1/2 rounded bg-gray-400"></div>
+
+        <!-- Selected range highlight -->
+        <div class="absolute top-1/2 h-1 -translate-y-1/2 rounded bg-black dark:bg-white"
+             style="left: calc({{ $__startPct }}%); right: calc({{ 100 - $__endPct }}%);"></div>
+
+        <!-- Lower bound slider -->
+        <input
+          type="range"
+          min="{{ $minPrice }}"
+          max="{{ $maxPrice }}"
+          step="5"
+          wire:model.live="priceMin"
+          class="range-thumb peer absolute inset-x-0 -top-1 h-2 w-full appearance-none bg-transparent focus:outline-none"
+        />
+
+        <!-- Upper bound slider -->
+        <input
+          type="range"
+          min="{{ $minPrice }}"
+          max="{{ $maxPrice }}"
+          step="5"
+          wire:model.live="priceMax"
+          class="range-thumb absolute inset-x-0 -top-1 h-2 w-full appearance-none bg-transparent focus:outline-none"
+        />
+      </div>
+
+      <div class="flex items-center gap-3">
+        <input type="number" step="5" min="{{ $minPrice }}" max="{{ $maxPrice }}"
+               wire:model.lazy="priceMin"
+               class="w-1/2 rounded-lg border border-gray-300 bg-white/80 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-black/20 dark:bg-neutral-900 dark:text-gray-100 dark:border-neutral-700 dark:focus:ring-white/20"
+               placeholder="Min" />
+        <span class="text-gray-400">—</span>
+        <input type="number" step="5" min="{{ $minPrice }}" max="{{ $maxPrice }}"
+               wire:model.lazy="priceMax"
+               class="w-1/2 rounded-lg border border-gray-300 bg-white/80 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-black/20 dark:bg-neutral-900 dark:text-gray-100 dark:border-neutral-700 dark:focus:ring-white/20"
+               placeholder="Max" />
+      </div>
+    </div>
+
+    <style>
+      /* Minimal thumb styling for range inputs */
+      .range-thumb::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; height: 16px; width: 16px; border-radius: 9999px; background: #111827; border: 2px solid white; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+      .range-thumb::-moz-range-thumb { height: 16px; width: 16px; border-radius: 9999px; background: #111827; border: 2px solid white; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+      .range-thumb::-webkit-slider-runnable-track { background: transparent; height: 4px; }
+      .range-thumb::-moz-range-track { background: transparent; height: 4px; }
+      .dark .range-thumb::-webkit-slider-thumb { background: #ffffff; border-color: #111827; }
+      .dark .range-thumb::-moz-range-thumb { background: #ffffff; border-color: #111827; }
+    </style>
+  </aside>
     <!-- car cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-15 m-4 sm:m-6 lg:m-10">
         @forelse ($cars as $car)
