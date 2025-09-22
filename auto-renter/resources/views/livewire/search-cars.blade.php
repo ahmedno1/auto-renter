@@ -308,5 +308,69 @@
     <div class="mt-4">
       {{ $cars->links('vendor.pagination.tailwind') }}
     </div>
+
+    <!-- the pop out car details -->
+    <flux:modal name="car-details">
+      @if ($selectedCar)
+      <div class="p-4 space-y-2">
+          <img src="{{ $selectedCar->image ? asset('storage/' . $selectedCar->image) : 'https://placehold.co/600x300?text=No+Image' }}"
+              alt="{{ $selectedCar->brand }}"
+              class="w-full object-cover rounded mb-2">
+
+          <div class="font-bold text-xl">{{ $selectedCar->brand }} - {{ $selectedCar->model }}</div>
+          <div class="text-sm">year: {{ $selectedCar->year }}</div>
+          <div class="text-sm">daily rent: ${{ number_format($selectedCar->daily_rent, 2) }}</div>
+          <div class="text-sm">description: {{ $selectedCar->description }}</div>
+          <div class="text-sm">status: {{ $selectedCar->status }}</div>
+          <div class="text-sm">owner: {{ $selectedCar->owner->name }}</div>
+
+          @if ($selectedCar->status === 'available')
+          <div class="space-y-3 mt-4">
+              @if (session('error'))
+                  <div class="text-red-600 text-sm">{{ session('error') }}</div>
+              @endif
+              @if (session('success'))
+                  <div class="text-green-600 text-sm">{{ session('success') }}</div>
+              @endif
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                      <label class="block text-sm mb-1">From</label>
+                      <input type="date"
+                             wire:model="start_date"
+                             min="{{ \Carbon\Carbon::now()->toDateString() }}"
+                             class="block p-2 w-full text-sm bg-gray-50 border border-gray-300 rounded dark:bg-black dark:border-black dark:text-white">
+                  </div>
+                  <div>
+                      <label class="block text-sm mb-1">To</label>
+                      <input type="date"
+                             wire:model="end_date"
+                             min="{{ $start_date ?? \Carbon\Carbon::now()->toDateString() }}"
+                             class="block p-2 w-full text-sm bg-gray-50 border border-gray-300 rounded dark:bg-black dark:border-black dark:text-white">
+                  </div>
+              </div>
+
+              @if ($this->estimatedTotal)
+                  <div class="text-sm">Estimated total: ${{ $this->estimatedTotal }}</div>
+              @endif
+
+              <flux:button wire:click="rent" class="bg-green-600 text-white px-4 py-2 rounded">
+                  Confirm booking
+              </flux:button>
+          </div>
+          @else
+          <div class="text-red-600 text-sm mt-4">
+              Car is not available for renting in this time.<br>
+              Rent time for the car:
+              <ul class="mt-2 list-disc list-inside text-gray-700">
+                  @foreach($selectedCar->reservations as $r)
+                  <li>{{ $r->start_date }} to {{ $r->end_date }}</li>
+                  @endforeach
+              </ul>
+          </div>
+          @endif
+      </div>
+      @endif
+    </flux:modal>
   </div>
 </section>
