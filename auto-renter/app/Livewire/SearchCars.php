@@ -40,7 +40,7 @@ class SearchCars extends Component
         $max = Car::max('daily_rent');
 
         $this->minPrice = $min !== null ? (float) $min : 0;
-        $this->maxPrice = $max !== null ? (float) $max : 0;
+        $this->maxPrice = $max !== null ? (float) $max +1 : 0;
 
         // Initialize current range to full span
         $this->priceMin = $this->minPrice;
@@ -149,6 +149,8 @@ class SearchCars extends Component
 
     public function showCar($id)
     {
+        $previousCarId = $this->selectedCar?->id;
+
         $this->selectedCar = Car::with([
             'owner',
             'reservations' => fn ($q) => $q->whereIn('status', ['pending', 'approved'])
@@ -157,14 +159,26 @@ class SearchCars extends Component
         $this->disabledDates = [];
 
         if ($this->selectedCar) {
+            if ($previousCarId !== $this->selectedCar->id) {
+                $this->reset(['start_date', 'end_date']);
+            }
+
             foreach ($this->selectedCar->reservations as $reservation) {
                 $period = CarbonPeriod::create($reservation->start_date, $reservation->end_date);
                 foreach ($period as $date) {
                     $this->disabledDates[] = $date->toDateString();
                 }
             }
+
             $this->disabledDates = array_values(array_unique($this->disabledDates));
+            sort($this->disabledDates);
         }
+
+        $this->dispatch('car-details-opened',
+            disabledDates: $this->disabledDates,
+            start: $this->start_date,
+            end: $this->end_date,
+        );
 
         \Flux\Flux::modal('car-details')->show();
     }

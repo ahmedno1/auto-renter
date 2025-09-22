@@ -197,40 +197,53 @@
                         <div class="text-green-600 text-sm">{{ session('success') }}</div>
                     @endif
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-sm mb-1">From</label>
-                            <input type="date"
-                                   wire:model="start_date"
-                                   min="{{ \Carbon\Carbon::now()->toDateString() }}"
-                                   class="block p-2 w-full text-sm bg-gray-50 border border-gray-300 rounded dark:bg-black dark:border-black dark:text-white">
-                        </div>
-                        <div>
-                            <label class="block text-sm mb-1">To</label>
-                            <input type="date"
-                                   wire:model="end_date"
-                                   min="{{ $start_date ?? \Carbon\Carbon::now()->toDateString() }}"
-                                   class="block p-2 w-full text-sm bg-gray-50 border border-gray-300 rounded dark:bg-black dark:border-black dark:text-white">
-                        </div>
-                    </div>
+                    <x-date-range-picker
+                        start-model="start_date"
+                        end-model="end_date"
+                        :disabled-dates="$disabledDates"
+                        :min-date="\Carbon\Carbon::now()->toDateString()"
+                    />
 
+                    @if ($selectedCar->reservations->isNotEmpty())
+                        <div class="text-xs text-gray-600 dark:text-gray-300">
+                            <span class="font-semibold text-red-600">Already booked:</span>
+                            <ul class="mt-1 list-disc list-inside space-y-0.5">
+                                @foreach ($selectedCar->reservations as $reservation)
+                                    <li class="text-red-500">{{ $reservation->start_date }} - {{ $reservation->end_date }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    @if ($this->nextAvailableDate())
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                            Next available checkout date: {{ $this->nextAvailableDate() }}
+                        </div>
+                    @endif
+                    
                     @if ($this->estimatedTotal)
                         <div class="text-sm">Estimated total: ${{ $this->estimatedTotal }}</div>
                     @endif
 
-                    <flux:button wire:click="rent" class="bg-green-600 text-white px-4 py-2 rounded">
+                    <flux:button
+                        wire:click="rent"
+                        class="bg-green-600 text-white px-4 py-2 rounded"
+                        :disabled="! $start_date || ! $end_date"
+                    >
                         Confirm booking
                     </flux:button>
                 </div>
                 @else
-                <div class="text-red-600 text-sm mt-4">
-                    Car is not available for renting in this time.<br>
-                    Rent time for the car:
-                    <ul class="mt-2 list-disc list-inside text-gray-700">
-                        @foreach($selectedCar->reservations as $r)
-                        <li>{{ $r->start_date }} to {{ $r->end_date }}</li>
-                        @endforeach
-                    </ul>
+                <div class="space-y-2 text-sm mt-4 text-red-600">
+                    <p>Car is not available for renting in this time.</p>
+                    <div>
+                        <span class="font-semibold">Booked ranges:</span>
+                        <ul class="mt-1 list-disc list-inside space-y-0.5">
+                            @foreach ($selectedCar->reservations as $reservation)
+                                <li class="text-red-500">{{ $reservation->start_date }} - {{ $reservation->end_date }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
                 @endif
             </div>

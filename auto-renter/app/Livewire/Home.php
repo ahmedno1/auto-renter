@@ -25,6 +25,8 @@ class Home extends Component
 
     public function showCar($id)
     {
+        $previousCarId = $this->selectedCar?->id;
+
         $this->selectedCar = Car::with([
             'owner',
             'reservations' => fn ($q) => $q->whereIn('status', ['pending', 'approved'])
@@ -32,6 +34,10 @@ class Home extends Component
         $this->disabledDates = [];
 
         if ($this->selectedCar) {
+            if ($previousCarId !== $this->selectedCar->id) {
+                $this->reset(['start_date', 'end_date']);
+            }
+
             foreach ($this->selectedCar->reservations as $reservation) {
                 $period = CarbonPeriod::create($reservation->start_date, $reservation->end_date);
 
@@ -41,7 +47,15 @@ class Home extends Component
             }
 
             $this->disabledDates = array_values(array_unique($this->disabledDates));
+            sort($this->disabledDates);
         }
+
+        // Notify frontend to (re)initialize datepickers with disabled dates
+        $this->dispatch('car-details-opened',
+            disabledDates: $this->disabledDates,
+            start: $this->start_date,
+            end: $this->end_date,
+        );
 
         \Flux\Flux::modal('car-details')->show();
     }
