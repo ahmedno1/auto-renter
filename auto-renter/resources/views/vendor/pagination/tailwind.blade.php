@@ -16,7 +16,7 @@
                     {!! __('pagination.next') !!}
                 </a>
             @else
-                <span class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 bg-white border-2 border-accent cursor-default leading-5 rounded-md dark:border-accent">
+                <span class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-accent bg-white border-2 border-accent cursor-default leading-5 rounded-md dark:bg-black dark:border-accent">
                     {!! __('pagination.next') !!}
                 </span>
             @endif

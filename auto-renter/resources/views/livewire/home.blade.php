@@ -25,14 +25,14 @@
     </section>
 
     <!-- About us section-->
-    <section class="py-12 mb-15">
+    <section class="py-12">
 
         <h2 class="text-2xl md:text-7xl font-bold text-center mb-15">Why Auto Renter</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto px-6">
 
             <!-- Card 1 -->
-            <div class="bg-accent text-accent-foreground shadow-lg rounded-lg p-8 text-center">
+            <div class="bg-accent text-accent-foreground shadow-lg rounded-lg p-8 text-center" data-aos="fade-up">
                 <div class="flex justify-center mb-4">
                     <div class="bg-accent-foreground p-3 rounded-full">
                         <flux:icon.key-square class="text-accent" />
@@ -45,7 +45,7 @@
             </div>
 
             <!-- Card 2 (highlighted) -->
-            <div class="bg-gray-100 text-accent dark:bg-black shadow-lg rounded-lg p-8 text-center">
+            <div class="bg-gray-100 text-accent dark:bg-black shadow-lg rounded-lg p-8 text-center" data-aos="fade-up">
                 <div class="flex justify-center mb-4">
                     <div class="bg-accent p-3 rounded-full">
                         <flux:icon.lightbulb class="text-accent-foreground" />
@@ -58,7 +58,7 @@
             </div>
 
             <!-- Card 3 -->
-            <div class="bg-accent text-accent-foreground shadow-lg rounded-lg p-8 text-center">
+            <div class="bg-accent text-accent-foreground shadow-lg rounded-lg p-8 text-center" data-aos="fade-up">
                 <div class="flex justify-center mb-4">
                     <div class="bg-accent-foreground p-3 rounded-full">
                         <flux:icon.person-standing class="text-accent" />
@@ -148,9 +148,9 @@
         </div>
         </form>
         <!-- car cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-15 m-4 sm:m-6 lg:m-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-15 m-4 sm:m-6 lg:m-10 ">
             @forelse ($cars as $car)
-            <div class="bg-gray-100 dark:bg-black rounded-4xl p-10 text-center shadow-xl/30 border-4 border-accent">
+            <div class="bg-gray-100 dark:bg-black rounded-4xl p-10 text-center shadow-xl/30 border-4 border-accent" data-aos="fade-up">
                 <h1 class="font-bold text-3xl">{{ $car->brand }} - {{ $car->model }}</h1>
                 <h2 class="font-bold text-2xl">{{ $car->year }}</h2>
                 <img src="{{ $car->image ? asset('storage/' . $car->image) : 'https://placehold.co/300x200?text=No+Image' }}"
