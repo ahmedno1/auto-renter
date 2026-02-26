@@ -41,7 +41,7 @@ class Cars extends Component
         $car = Car::findOrFail($id);
         $car->status = $car->status === 'available' ? 'unavailable' : 'available';
         $car->save();
-        $this->dispatch('toast', 'Status updated');
+        $this->dispatch('toast', type: 'success', message: 'Status updated.');
     }
 
     public $carId;
@@ -71,7 +71,7 @@ class Cars extends Component
     {
         Car::find($this->carId)->delete();
         Flux::modal('delete-car')->close();
-        session()->flash('success', 'Car deleted successfully.');
+        $this->dispatch('toast', type: 'success', message: 'Car deleted successfully.');
     }
 
     public function carsCount()

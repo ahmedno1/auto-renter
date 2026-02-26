@@ -13,6 +13,8 @@ use App\Livewire\Auth\TwoFactorAuthentication;
 use App\Livewire\Cars;
 use App\Livewire\Bookings;
 use App\Livewire\SearchCars;
+use App\Livewire\MyBookings;
+use Illuminate\Support\Facades\Storage;
 
 
 Route::get('/', function () {
@@ -28,6 +30,7 @@ Route::middleware(['auth', 'verified', 'role:owner'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('home', Home::class)->name('home');
     Route::get('search', SearchCars::class)->name('search');
+    Route::get('my-bookings', MyBookings::class)->name('my-bookings');
 
 });
 
@@ -39,6 +42,23 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Route::get('uploads/{path}', function (string $path) {
+    $path = ltrim($path, '/');
+
+    // Only serve publicly uploaded car images.
+    if (!str_starts_with($path, 'cars/')) {
+        abort(404);
+    }
+
+    if (!Storage::disk('public')->exists($path)) {
+        abort(404);
+    }
+
+    return Storage::disk('public')->response($path, null, [
+        'Cache-Control' => 'public, max-age=86400',
+    ]);
+})->where('path', '.*')->name('uploads.show');
 
 Route::fallback(function () {
     return redirect()->route('home');

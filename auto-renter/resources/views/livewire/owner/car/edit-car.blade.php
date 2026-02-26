@@ -7,12 +7,6 @@
                     <flux:text class="mt-2">Add a car</flux:text>
                 </div>
 
-                @if (session()->has('error'))
-                <div class="bg-red-500 text-white text-sm p-2 rounded mb-2">
-                    {{ session('error') }}
-                </div>
-                @endif
-
                 <flux:input
                     type="file"
                     wire:model="newImage"

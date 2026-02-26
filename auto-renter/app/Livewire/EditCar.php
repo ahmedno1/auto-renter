@@ -70,7 +70,7 @@ class EditCar extends Component
         $car->status      = $this->status;
         $car->save();
 
-        session()->flash('success', 'Car updated successfully.');
+        $this->dispatch('toast', type: 'success', message: 'Car updated successfully.');
 
         Flux::modal('edit-car')->close();
         $this->dispatch('save')->to(\App\Livewire\Cars::class);

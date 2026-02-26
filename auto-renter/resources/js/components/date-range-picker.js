@@ -5,6 +5,12 @@ const toIso = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad
 const parseIso = (value) => (value ? new Date(`${value}T00:00:00`) : null);
 const startOfMonth = (date) => new Date(date.getFullYear(), date.getMonth(), 1);
 const addMonths = (date, amount) => new Date(date.getFullYear(), date.getMonth() + amount, 1);
+const isSameDay = (a, b) =>
+    a &&
+    b &&
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate();
 
 document.addEventListener('alpine:init', () => {
     if (!window.Alpine) {
@@ -23,9 +29,9 @@ document.addEventListener('alpine:init', () => {
         hoverDate: null,
         rangeError: null,
         legendItems: [
-            { label: 'Booked', class: 'bg-red-500' },
-            { label: 'Selected', class: 'bg-gray-900' },
-            { label: 'In range', class: 'bg-green-200 border border-green-500' },
+            { label: 'Booked', class: 'bg-red-600' },
+            { label: 'Selected', class: 'bg-orange-600' },
+            { label: 'In range', class: 'bg-orange-500/20 border border-orange-500/30' },
         ],
 
         init() {
@@ -113,15 +119,25 @@ document.addEventListener('alpine:init', () => {
             } else {
                 this.viewEnd = startOfMonth(addMonths(new Date(), 1));
             }
+
+            this.ensureViewOrder();
         },
 
         shiftMonth(target, step) {
             if (target === 'start') {
                 this.viewStart = startOfMonth(addMonths(this.viewStart, step));
+                this.ensureViewOrder();
                 return;
             }
 
             this.viewEnd = startOfMonth(addMonths(this.viewEnd, step));
+            this.ensureViewOrder();
+        },
+
+        ensureViewOrder() {
+            if (this.viewEnd < this.viewStart) {
+                this.viewEnd = startOfMonth(this.viewStart);
+            }
         },
 
         setDisabledDates(list) {
@@ -279,6 +295,23 @@ document.addEventListener('alpine:init', () => {
             return this.compareDates(value, this.start) > 0 && this.compareDates(value, this.end) < 0;
         },
 
+        isInPreviewRange(value) {
+            if (!this.start || this.end || !this.hoverDate) {
+                return false;
+            }
+
+            if (this.compareDates(this.hoverDate, this.start) < 0) {
+                return false;
+            }
+
+            return this.compareDates(value, this.start) > 0 && this.compareDates(value, this.hoverDate) <= 0;
+        },
+
+        isToday(value) {
+            const date = parseIso(value);
+            return isSameDay(date, new Date());
+        },
+
         compareDates(a, b) {
             if (!a || !b) {
                 return 0;
@@ -318,32 +351,56 @@ document.addEventListener('alpine:init', () => {
             return date.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
         },
 
+        formatDayAriaLabel(date) {
+            if (!date) {
+                return '';
+            }
+
+            return date.toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+        },
+
         dayClasses(day, type) {
             if (!day) {
-                return 'h-9';
+                return 'h-9 w-9';
             }
 
             const value = day.formatted;
             const state = this.dayState(value);
-            const base = 'h-9 flex items-center justify-center rounded-full text-sm';
+            const base =
+                'h-9 w-9 inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors select-none ' +
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white ' +
+                'dark:focus-visible:ring-orange-400/60 dark:focus-visible:ring-offset-neutral-900';
 
             if (state === 'booked') {
-                return `${base} bg-red-500 text-white cursor-not-allowed`;
+                return `${base} bg-red-600 text-white opacity-90 cursor-not-allowed`;
             }
 
             if (state === 'past') {
-                return `${base} bg-gray-200 text-gray-400 cursor-not-allowed`;
+                return `${base} text-gray-300 dark:text-neutral-600 cursor-not-allowed`;
             }
 
             if ((type === 'start' && this.isStart(value)) || (type === 'end' && this.isEnd(value))) {
-                return `${base} bg-gray-900 text-white font-semibold`;
+                return `${base} bg-orange-600 text-white shadow-sm`;
             }
 
             if (this.isInRange(value)) {
-                return `${base} bg-green-200 text-green-900`;
+                return `${base} bg-orange-500/15 text-orange-900 dark:bg-orange-400/15 dark:text-orange-100`;
             }
 
-            return `${base} hover:bg-gray-900 hover:text-white cursor-pointer`;
+            if (this.isInPreviewRange(value)) {
+                return `${base} bg-orange-500/10 text-orange-900 dark:bg-orange-400/10 dark:text-orange-100`;
+            }
+
+            if (this.isToday(value)) {
+                return `${base} ring-1 ring-orange-600/30 dark:ring-orange-400/40 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-neutral-800 cursor-pointer`;
+            }
+
+            return `${base} text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-neutral-800 cursor-pointer`;
         },
     }));
 });

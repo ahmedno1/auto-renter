@@ -28,6 +28,7 @@
                 <flux:navlist variant="outline">
                     <flux:navlist.group :heading="__('general')" class="grid">
                         <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>{{ __('home') }}</flux:navlist.item>
+                        <flux:navlist.item icon="calendar-days" :href="route('my-bookings')" :current="request()->routeIs('my-bookings')" wire:navigate>{{ __('My bookings') }}</flux:navlist.item>
                     </flux:navlist.group>
                 </flux:navlist>
                 

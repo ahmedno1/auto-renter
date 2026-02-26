@@ -186,17 +186,17 @@ class SearchCars extends Component
     public function rent()
     {
         if (!$this->selectedCar) {
-            session()->flash('error', 'Please select a car to book.');
+            $this->dispatch('toast', type: 'error', message: 'Please select a car to book.');
             return;
         }
 
         if (Auth::id() === $this->selectedCar->owner_id) {
-            session()->flash('error', 'You cannot book your own car.');
+            $this->dispatch('toast', type: 'error', message: 'You cannot book your own car.');
             return;
         }
 
         if (!$this->start_date || !$this->end_date) {
-            session()->flash('error', 'Please choose both start and end dates.');
+            $this->dispatch('toast', type: 'error', message: 'Please choose both start and end dates.');
             return;
         }
 
@@ -204,12 +204,12 @@ class SearchCars extends Component
         $end = Carbon::parse($this->end_date);
 
         if ($start->gt($end)) {
-            session()->flash('error', 'Start date must be before end date.');
+            $this->dispatch('toast', type: 'error', message: 'Start date must be before end date.');
             return;
         }
 
         if (!$this->selectedCar->isAvailableBetween($start, $end)) {
-            session()->flash('error', 'This car is not available for the selected dates.');
+            $this->dispatch('toast', type: 'error', message: 'This car is not available for the selected dates.');
             return;
         }
 
@@ -225,7 +225,7 @@ class SearchCars extends Component
             'status' => 'pending',
         ]);
 
-        session()->flash('success', 'Booking submitted. Waiting for owner approval.');
+        $this->dispatch('toast', type: 'success', message: 'Booking submitted. Waiting for owner approval.');
         $this->reset(['start_date', 'end_date']);
         \Flux\Flux::modal('car-details')->close();
     }
@@ -292,4 +292,3 @@ class SearchCars extends Component
         return number_format($total, 2);
     }
 }
-

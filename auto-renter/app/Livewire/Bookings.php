@@ -26,7 +26,7 @@ class Bookings extends Component
         }
 
         $reservation->update(['status' => $status]);
-        session()->flash('success', 'Reservation status updated.');
+        $this->dispatch('toast', type: 'success', message: 'Reservation status updated.');
     }
 
     public function render()

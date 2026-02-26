@@ -35,7 +35,7 @@ class CreateCar extends Component
     public function updatedImage()
     {
         if (!in_array($this->image->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
-            session()->flash('error', 'The picture should only be in jpg, jpeg, png, gif, webp');
+            $this->dispatch('toast', type: 'error', message: 'Image must be jpg, jpeg, png, gif, or webp.');
             $this->reset('image');
             return;
         }
@@ -61,7 +61,7 @@ class CreateCar extends Component
 
         Flux::modal('create-car')->close();
 
-        session()->flash('success', 'Car added successfully.');
+        $this->dispatch('toast', type: 'success', message: 'Car added successfully.');
         
         $this->dispatch('save')->to(\App\Livewire\Cars::class);
     }

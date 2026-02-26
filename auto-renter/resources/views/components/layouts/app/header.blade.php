@@ -41,6 +41,17 @@
                     </flux:navmenu.item>
 
                 </flux:tooltip>
+
+                <flux:tooltip :content="__('My bookings')" position="bottom">
+                    <flux:navmenu.item
+                        :href="route('my-bookings')"
+                        :current="request()->routeIs('my-bookings')"
+                        wire:navigate
+                        icon="calendar-days"
+                        :label="__('My bookings')"
+                    >
+                    </flux:navmenu.item>
+                </flux:tooltip>
             </flux:navbar>
 
             <!-- Desktop User Menu -->

@@ -196,7 +196,7 @@
         <div class="bg-gray-100 dark:bg-black rounded-4xl p-10 text-center shadow-xl/30 border-4 border-accent" >
             <h1 class="font-bold text-3xl">{{ $car->brand }} - {{ $car->model }}</h1>
             <h2 class="font-bold text-2xl">{{ $car->year }}</h2>
-            <img src="{{ $car->image ? asset('storage/' . $car->image) : 'https://placehold.co/300x200?text=No+Image' }}"
+            <img src="{{ $car->getImageUrl() }}"
                 alt="{{ $car->brand }}"
                 class="w-full m-5 object-contain h-50 sm:h-40">
             <h3 class="font-bold text-2xl">{{ $car->daily_rent }} $/Day</h3>
@@ -221,7 +221,7 @@
     <flux:modal name="car-details">
       @if ($selectedCar)
       <div class="p-4 space-y-2">
-          <img src="{{ $selectedCar->image ? asset('storage/' . $selectedCar->image) : 'https://placehold.co/600x300?text=No+Image' }}"
+          <img src="{{ $selectedCar->getImageUrl() }}"
               alt="{{ $selectedCar->brand }}"
               class="w-full object-cover rounded mb-2">
 
@@ -234,13 +234,6 @@
 
           @if ($selectedCar->status === 'available')
           <div class="space-y-3 mt-4">
-              @if (session('error'))
-                  <div class="text-red-600 text-sm">{{ session('error') }}</div>
-              @endif
-              @if (session('success'))
-                  <div class="text-green-600 text-sm">{{ session('success') }}</div>
-              @endif
-
               <x-date-range-picker
                   start-model="start_date"
                   end-model="end_date"

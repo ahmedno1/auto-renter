@@ -4,10 +4,6 @@
     <flux:separator variant="subtle" />
     <h1 class="text-2xl font-bold mb-4"></h1>
 
-    @if (session('success'))
-        <div class="mb-4 text-green-700">{{ session('success') }}</div>
-    @endif
-
     <div class="overflow-x-auto">
         <table class="overflow-hidden w-full bg-zinc-100 dark:bg-zinc-700 shadow-md rounded-lg mt-5">
             <thead>

@@ -4,6 +4,11 @@
     </flux:text>
 
     @if (session('status') == 'verification-link-sent')
+        <div
+            x-data
+            x-init="window.dispatchEvent(new CustomEvent('toast', { detail: { type: 'success', message: @js(__('A new verification link has been sent to the email address you provided during registration.')) } }))"
+            class="hidden"
+        ></div>
         <flux:text class="text-center font-medium !dark:text-green-400 !text-green-600">
             {{ __('A new verification link has been sent to the email address you provided during registration.') }}
         </flux:text>

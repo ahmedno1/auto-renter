@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 
 class Car extends Model
@@ -40,7 +41,21 @@ class Car extends Model
 
     public function getImageUrl(): string
     {
-        return $this->image ? asset('storage/' . $this->image) : 'https://placehold.co/120x80?text=Car';
+        if (!$this->image) {
+            return asset('image/car.png');
+        }
+
+        $publicFile = public_path('storage/' . $this->image);
+
+        if (is_file($publicFile)) {
+            return asset('storage/' . $this->image);
+        }
+
+        if (Storage::disk('public')->exists($this->image)) {
+            return route('uploads.show', ['path' => $this->image]);
+        }
+
+        return asset('image/car.png');
     }
 
     public function isAvailableBetween($start, $end): bool
