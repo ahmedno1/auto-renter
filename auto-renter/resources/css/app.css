@@ -48,6 +48,49 @@
     }
 }
 
+@layer base {
+    /* Range input thumb styling (used in Search filters) */
+    .range-thumb::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 16px;
+        width: 16px;
+        border-radius: 9999px;
+        background: #111827;
+        border: 2px solid #ffffff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .range-thumb::-moz-range-thumb {
+        height: 16px;
+        width: 16px;
+        border-radius: 9999px;
+        background: #111827;
+        border: 2px solid #ffffff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .range-thumb::-webkit-slider-runnable-track {
+        background: transparent;
+        height: 4px;
+    }
+
+    .range-thumb::-moz-range-track {
+        background: transparent;
+        height: 4px;
+    }
+
+    .dark .range-thumb::-webkit-slider-thumb {
+        background: #ffffff;
+        border-color: #111827;
+    }
+
+    .dark .range-thumb::-moz-range-thumb {
+        background: #ffffff;
+        border-color: #111827;
+    }
+}
+
 [data-flux-field]:not(ui-radio, ui-checkbox) {
     @apply grid gap-2;
 }

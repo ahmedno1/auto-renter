@@ -23,6 +23,8 @@ class SearchCars extends Component
     public $maxPrice;
     public $priceMin;
     public $priceMax;
+    public bool $onlyAvailable = false;
+    public string $sort = 'newest';
 
     public $selectedCar = null;
     public $start_date;
@@ -34,13 +36,15 @@ class SearchCars extends Component
         $this->type = request()->query('type', 'model');
         $this->query = request()->query('query', '');
         $this->brand = request()->query('brand', '');
+        $this->onlyAvailable = (bool) request()->boolean('available', false);
+        $this->sort = request()->query('sort', 'newest');
 
         // Initialize price bounds from database
         $min = Car::min('daily_rent');
         $max = Car::max('daily_rent');
 
         $this->minPrice = $min !== null ? (float) $min : 0;
-        $this->maxPrice = $max !== null ? (float) $max +1 : 0;
+        $this->maxPrice = $max !== null ? (float) $max : 0;
 
         // Initialize current range to full span
         $this->priceMin = $this->minPrice;
@@ -58,9 +62,22 @@ class SearchCars extends Component
             $val = (float) $rqMax;
             $this->priceMax = min($this->maxPrice, max($val, $this->minPrice));
         }
+
+        $this->sort = in_array($this->sort, ['newest', 'price_low', 'price_high'], true) ? $this->sort : 'newest';
+        $this->type = in_array($this->type, ['model', 'owner', 'availability'], true) ? $this->type : 'model';
     }
 
     public function updatingBrand()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingOnlyAvailable()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSort()
     {
         $this->resetPage();
     }
@@ -111,16 +128,23 @@ class SearchCars extends Component
                     });
                     break;
                 case 'availability':
-                    $date = Carbon::parse($this->query)->toDateString();
-                    $cars->whereDoesntHave('reservations', function ($q) use ($date) {
-                        $q->where('start_date', '<=', $date)
-                          ->where('end_date', '>=', $date)
-                          ->whereIn('status', ['pending', 'approved']);
-                    });
+                    try {
+                        $date = Carbon::parse($this->query)->toDateString();
+                        $cars->whereDoesntHave('reservations', function ($q) use ($date) {
+                            $q->where('start_date', '<=', $date)
+                              ->where('end_date', '>=', $date)
+                              ->whereIn('status', ['pending', 'approved']);
+                        });
+                    } catch (\Throwable $e) {
+                        // Ignore invalid date input.
+                    }
                     break;
                 case 'model':
                 default:
-                    $cars->where('brand', 'like', '%' . $this->query . '%');
+                    $cars->where(function ($q) {
+                        $q->where('brand', 'like', '%' . $this->query . '%')
+                          ->orWhere('model', 'like', '%' . $this->query . '%');
+                    });
                     break;
             }
         }
@@ -129,12 +153,29 @@ class SearchCars extends Component
             $cars->where('brand', $this->brand);
         }
 
+        if ($this->onlyAvailable) {
+            $cars->where('status', 'available');
+        }
+
         // Apply price range filter when bounds are available
         if ($this->minPrice !== null && $this->maxPrice !== null) {
             $cars->whereBetween('daily_rent', [
                 $this->priceMin ?? $this->minPrice,
                 $this->priceMax ?? $this->maxPrice,
             ]);
+        }
+
+        switch ($this->sort) {
+            case 'price_low':
+                $cars->orderBy('daily_rent', 'asc');
+                break;
+            case 'price_high':
+                $cars->orderBy('daily_rent', 'desc');
+                break;
+            case 'newest':
+            default:
+                $cars->orderByDesc('created_at');
+                break;
         }
 
         $brands = Car::select('brand')->distinct()->orderBy('brand')->pluck('brand');

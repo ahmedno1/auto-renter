@@ -22,7 +22,6 @@
                     <flux:navmenu>
                         <flux:navmenu.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Dashboard</flux:navmenu.item>
                         <flux:navmenu.item :href="route('cars')" :current="request()->routeIs('cars')" wire:navigate>cars</flux:navmenu.item>
-                        <flux:navmenu.item :href="route('bookings')" :current="request()->routeIs('bookings')" wire:navigate>bookings</flux:navmenu.item>
                     </flux:navmenu>
                 </flux:dropdown>
 
