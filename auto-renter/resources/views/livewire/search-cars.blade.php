@@ -285,7 +285,7 @@
                             </div>
 
                             <div class="text-sm text-zinc-600 dark:text-zinc-200">
-                                <span class="font-semibold">{{ __('Owner') }}:</span> {{ $car->owner->name }}
+                                <span class="font-semibold">{{ __('Owner') }}:</span> {{ $car->owner?->name ?? 'Unknown' }}
                             </div>
 
                             <div class="pt-2">
@@ -333,7 +333,7 @@
                         </div>
 
                         <div class="text-sm text-zinc-700 dark:text-zinc-200">
-                            <span class="font-semibold">{{ __('Owner') }}:</span> {{ $selectedCar->owner->name }}
+                            <span class="font-semibold">{{ __('Owner') }}:</span> {{ $selectedCar->owner?->name ?? 'Unknown' }}
                         </div>
 
                         @if ($selectedCar->status === 'available')

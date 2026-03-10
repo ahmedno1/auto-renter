@@ -44,6 +44,17 @@ Reservations are validated against existing bookings, and owners can approve or 
    composer run dev
    ```
 
+## Demo Data (Recommended)
+To quickly test the full flow (search → show details → booking → owner approval), seed the demo accounts and sample cars:
+```bash
+cd auto-renter
+php artisan migrate:fresh --seed
+```
+Demo logins (password for all: `password`):
+- Owner: `owner1@example.com`
+- Owner: `owner2@example.com`
+- Customer: `customer@example.com`
+
 ## Folder Highlights
 - `app/Livewire`: Livewire components for search, bookings, and car management.
 - `app/Models`: Eloquent models for cars and reservations.

@@ -157,7 +157,7 @@
                     alt="{{ $car->brand }}"
                     class="w-full m-5 object-contain h-50 sm:h-100">
                 <h3 class="font-bold text-2xl">{{ $car->daily_rent }} $/Day</h3>
-                <h3 class="font-bold text-2xl"><b>Owner: </b>{{ $car->owner->name }}</h3>
+                <h3 class="font-bold text-2xl"><b>Owner: </b>{{ $car->owner?->name ?? 'Unknown' }}</h3>
                 <flux:button wire:click="showCar({{ $car->id }})" variant="primary" class="mt-10">
                     Show details
                 </flux:button>
@@ -186,7 +186,7 @@
                 <div class="text-sm">daily rent: ${{ number_format($selectedCar->daily_rent, 2) }}</div>
                 <div class="text-sm">description: {{ $selectedCar->description }}</div>
                 <div class="text-sm">status: {{ $selectedCar->status }}</div>
-                <div class="text-sm">owner: {{ $selectedCar->owner->name }}</div>
+                <div class="text-sm">owner: {{ $selectedCar->owner?->name ?? 'Unknown' }}</div>
 
                 @if ($selectedCar->status === 'available')
                 <div class="space-y-3 mt-4">

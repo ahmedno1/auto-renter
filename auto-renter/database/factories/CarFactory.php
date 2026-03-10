@@ -17,7 +17,7 @@ class CarFactory extends Factory
     public function definition(): array
     {
         return [
-            'image' => 'cars/' . fake()->uuid() . '.jpg',
+            'image' => 'cars/' . fake()->uuid() . '.png',
             'brand' => fake()->company(),
             'model' => fake()->word(),
             'year' => fake()->numberBetween(2000, now()->year),
