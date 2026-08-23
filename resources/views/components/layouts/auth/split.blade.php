@@ -3,13 +3,16 @@
     <head>
         @include('partials.head')
     </head>
-<body class="h-14 bg-linear-65 from-white-500 to-black-500">
+<body class="rounded-full bg-radial-[at_50%_50%] from-zinc-900 to-white dark:from-white dark:to-[#151611] to-75%">
         <div class="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
-                <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-es-lg rounded-ee-lg lg:rounded-ss-lg lg:rounded-ee-none">
+                <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC]  rounded-es-lg rounded-ee-lg lg:rounded-ss-lg lg:rounded-ee-none">
                     <a href="{{ route('login') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
-                    <span class="flex h-9 w-9 mb-1 items-center justify-center rounded-md">
-                        <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
+                    <span class="flex h-30 w-30 mb-1 items-center justify-center rounded-md hidden dark:flex">
+                        <x-dark-app-logo-icon class="size-100 text-black dark:text-white" />
+                    </span>
+                    <span class="flex h-30 w-30 mb-1 items-center justify-center rounded-md dark:hidden">
+                        <x-app-logo-icon class="size-100 text-black dark:text-white" />
                     </span>
                     <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
                 </a>
@@ -17,18 +20,15 @@
                     {{ $slot }}
                 </div>
                 </div>
-                <div class="bg-gradient-to-r from-[#151611] to-white relative lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
+                <div class="bg-gradient-to-r from-white to-zinc-900  dark:bg-gradient-to-r dark:from-[#151611] dark:to-white relative lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden ">
                     <img
                         src="{{ asset('image/car.png') }}"
                         alt="car Image"
-                        class="w-120 mx-auto mt-12 object-contain"
+                        class="w-120 mx-auto mt-30 object-contain"
                         loading="lazy"
                     >
-                    <div class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"></div>
-                </div>
             </main>
         </div>
-        <livewire:gradient-header />
         @fluxScripts
     </body>
 </html>
