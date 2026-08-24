@@ -27,7 +27,8 @@ RUN npm install && npm run build
 RUN mkdir -p database \
     && touch database/database.sqlite
 
-RUN mkdir -p storage/framework/cache \
+RUN mkdir -p \
+    storage/framework/cache \
     storage/framework/sessions \
     storage/framework/views \
     bootstrap/cache \
@@ -37,9 +38,6 @@ RUN php artisan config:clear
 
 EXPOSE 10000
 
-CMD php artisan config:clear && \
-    php artisan cache:clear && \
-    php artisan view:clear && \
-    php artisan migrate --seed --force && \
+CMD php artisan migrate:fresh --seed --force && \
     php artisan storage:link && \
     php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
