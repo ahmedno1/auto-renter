@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\URL;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('isOwner', $user && $user->role === 'owner');
             $view->with('isCustomer', $user && $user->role === 'customer');
         });
+
+        if (app()->environment('production')) {
+        URL::forceScheme('https');
+        }
     }
 }
